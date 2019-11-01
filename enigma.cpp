@@ -85,7 +85,7 @@ void EnigmaMachine::convert(char* input_char) {
 
  
   // Plugboard convert
-  //plugboard->convert(input_char);
+  plugboard->convert(input_char);
 
   
   int rotors_to_rotate = 1;
