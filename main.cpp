@@ -16,8 +16,9 @@ int main(int argc, char** argv) {
   // parse command line arguments
   //
   if(argc < 4) {
-    std::cout << "INSUFFICIENT_NUMBER_OF_PARAMETERS" << std::endl;
-    exit(INSUFFICIENT_NUMBER_OF_PARAMETERS);
+    std::cerr << "INSUFFICIENT_NUMBER_OF_PARAMETERS" << std::endl;
+    return 1;
+    return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
   std::string plugboard_config = argv[1], reflector_config = argv[2];
   int number_of_rotors = argc - 4; // argv[0]; argv[1]; argv[2]; argv[argc-1];
