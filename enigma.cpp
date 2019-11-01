@@ -59,6 +59,8 @@ void Reflector::convert(char* input_char) {
 }
 
 void EnigmaMachine::convert(char* input_char) {
+ 
+  
 
   // Plugboard convert  
   plugboard->convert(input_char);

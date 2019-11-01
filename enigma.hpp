@@ -10,7 +10,6 @@
 class Plugboard {
   int config_file_integers[26];
   int config_int_count = 0;
-  std::ifstream config;
 public:
   /*
    * Name: Plugboard constructor
@@ -18,33 +17,33 @@ public:
    * Input: file path to plugboard config file
    * Output: initialised plugboard
    */
-  Plugboard(std::string config_file_path) {
-    config.open(config_file_path);
+  int config(std::string config_file_path) {
+    std::ifstream config(config_file_path);
     if (!config) {
       std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
-      throw ERROR_OPENING_CONFIGURATION_FILE;
+      return ERROR_OPENING_CONFIGURATION_FILE;
     }
     int current_int;
     
     while(config.good()) {
       if (config_int_count == 26) {
 	std::cout << "INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS" << std::endl;
-	throw INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
+	return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
       }
 
       if (!(config >> current_int)) {
 	if (config.eof()) break;
 	std::cout << "NON_NUMERIC_CHARACTER" << std::endl;
-	throw NON_NUMERIC_CHARACTER;
+	return NON_NUMERIC_CHARACTER;
       }
       if (current_int < 0 || 25 < current_int) {
 	std::cout << "INVALID_INDEX" << std::endl;
-	throw INVALID_INDEX;
+	return INVALID_INDEX;
       }
       for(int i; i < config_int_count; i++) {
         if (current_int == config_file_integers[i]) {
 	  std::cout << "IMPOSSIBLE_PLUGBOARD_CONFIGURATION" << std::endl;
-	  throw IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
+	  return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
         }
       }
       config_file_integers[config_int_count] = current_int;
@@ -52,9 +51,10 @@ public:
     }
     if(config_int_count%2) {
       std::cout << "INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS: " << config_int_count << std::endl;
-      throw INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
+      return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
     }
 
+    return 0;
 
   };
 

@@ -10,12 +10,14 @@
 
 
 int main(int argc, char** argv) {
+  int r;
+  
   //
   // parse command line arguments
   //
   if(argc < 4) {
     std::cout << "INSUFFICIENT_NUMBER_OF_PARAMETERS" << std::endl;
-    throw INSUFFICIENT_NUMBER_OF_PARAMETERS;
+    return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
   std::string plugboard_config = argv[1], reflector_config = argv[2];
   int number_of_rotors = argc - 4; // argv[0]; argv[1]; argv[2]; argv[argc-1];
@@ -32,17 +34,17 @@ int main(int argc, char** argv) {
   //
   // init plugboard
   //
-  Plugboard* plugboard = new Plugboard(plugboard_config);
+  Plugboard* plugboard = new Plugboard();
+  r = plugboard->config(plugboard_config);
+  if (r) return r;
   enigma_machine->setPlugboard(plugboard);
 
   //
   // init rotors
   //
   std::string rotor_starting_pos = argv[argc-1];
-  Rotor* rotors[number_of_rotors]; // delete
   for (int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
     Rotor* rotor = new Rotor(rotor_configs[current_rotor], rotor_starting_pos, current_rotor);
-    rotors[current_rotor] = rotor; // delete
     enigma_machine->setRotor(rotor);
   }
  
@@ -69,7 +71,7 @@ int main(int argc, char** argv) {
       output_length++;
       
     }
-    // display error INVALID_INPUT_CHARACTER
+    return INVALID_INPUT_CHARACTER;
     
   }
   // output
