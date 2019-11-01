@@ -126,6 +126,8 @@ public:
         throw NO_ROTOR_STARTING_POSITION;
       }
     }
+    if (starting_pos == 0) return;
+    this->rotate(starting_pos);
 
   }
 
