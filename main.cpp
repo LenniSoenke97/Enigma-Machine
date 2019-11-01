@@ -66,16 +66,14 @@ int main(int argc, char** argv) {
     if (current_char == '0') continue;
     if ('A' <= current_char && current_char <= 'Z') {
       enigma_machine->convert(&current_char);
-  
+      std::cout << current_char;
       output[output_length] = current_char;
       output_length++;
       
     }
-    return INVALID_INPUT_CHARACTER;
+    // return INVALID_INPUT_CHARACTER;
     
   }
   // output
-  std::cout << std::endl << "Here is your output: ";
-  for (int index=0; index<output_length; index++) { std::cout << output[index]; };
-  std::cout << std::endl;
+  // for (int index=0; index<output_length; index++) { std::cout << output[index]; };
 }
