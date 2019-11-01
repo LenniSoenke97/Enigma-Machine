@@ -10,7 +10,7 @@
 class Plugboard {
   int config_file_integers[26];
   int config_int_count = 0;
-
+  std::ifstream config;
 public:
   /*
    * Name: Plugboard constructor
@@ -19,7 +19,7 @@ public:
    * Output: initialised plugboard
    */
   Plugboard(std::string config_file_path) {
-    std::ifstream config(config_file_path);
+    config.open(config_file_path);
     if (!config) {
       std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
       throw ERROR_OPENING_CONFIGURATION_FILE;
@@ -72,6 +72,7 @@ class Rotor {
   int config_file_integers[26];
   int config_int_count = 0;
   int current_pos = 0;
+  std::ifstream config;
   
 public:
    /*
@@ -81,7 +82,7 @@ public:
    * Output: initialised rotor
    */
   Rotor(std::string config_file_path, std::string starting_pos_config_file_path, int rotor_pos) {
-    std::ifstream config(config_file_path);
+     config.open(config_file_path);
     std::ifstream starting_config(starting_pos_config_file_path);
     if (!config || !starting_config) {
       std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
@@ -149,7 +150,8 @@ public:
 class Reflector {
   int config_file_integers[26];
   int config_int_count = 0;
-
+  std::ifstream config;
+  
 public:
    /*
    * Name: Reflector constructor
@@ -158,7 +160,7 @@ public:
    * Output: initialised reflector
    */
   Reflector(std::string config_file_path) {
-    std::ifstream config(config_file_path);
+    config.open(config_file_path);
     if (!config) {
       std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
       throw ERROR_OPENING_CONFIGURATION_FILE;

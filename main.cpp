@@ -67,11 +67,16 @@ int main(int argc, char** argv) {
 
 
 
-      plugboard->convert(&current_char);
-
+  plugboard->convert(&current_char);
+  std::cout << "plugboad: " << current_char << std::endl;
+  
   // Rotor convert
   for(int current_rotor = (number_of_rotors-1); 0 <= current_rotor; current_rotor--) {
     (rotors[current_rotor])->convert_forward(&current_char);
+    std::cout << std::endl;
+    rotors[current_rotor]->display_rotor();
+     std::cout << std::endl;
+    std::cout << "rotor: " << current_char << std::endl;
   }
    
   // Reflector convert
@@ -89,7 +94,7 @@ int main(int argc, char** argv) {
   for(; rotors_to_rotate <= number_of_rotors; rotors_to_rotate++) {
     if(!((rotors[rotors_to_rotate-1])->at_rotation_notch())) break;
   }
-  for(int current_rotor=0; current_rotor < rotors_to_rotate; current_rotor++) {
+  for(int current_rotor = (number_of_rotors-1); 0 <= current_rotor; current_rotor--) {
     (rotors[current_rotor])->rotate();
   }
 
