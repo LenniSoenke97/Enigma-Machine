@@ -63,49 +63,15 @@ int main(int argc, char** argv) {
     std::cin >> std::ws >>current_char;
     if (current_char == '0') continue;
     if ('A' <= current_char && current_char <= 'Z') {
-      //enigma_machine->convert(&current_char);
-
-
-
-  plugboard->convert(&current_char);
-  std::cout << "plugboad: " << current_char << std::endl;
+      enigma_machine->convert(&current_char);
   
-  // Rotor convert
-  for(int current_rotor = (number_of_rotors-1); 0 <= current_rotor; current_rotor--) {
-    (rotors[current_rotor])->convert_forward(&current_char);
-    std::cout << std::endl;
-    rotors[current_rotor]->display_rotor();
-     std::cout << std::endl;
-    std::cout << "rotor: " << current_char << std::endl;
-  }
-   
-  // Reflector convert
-  reflector->convert(&current_char);
- 
-  // Rotor convert
-  for(int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
-    (rotors[current_rotor])->convert_backward(&current_char);
-  }
-
-  // Plugboard convert
-  plugboard->convert(&current_char);
- 
-  int rotors_to_rotate = 1;
-  for(; rotors_to_rotate <= number_of_rotors; rotors_to_rotate++) {
-    if(!((rotors[rotors_to_rotate-1])->at_rotation_notch())) break;
-  }
-  for(int current_rotor = (number_of_rotors-1); 0 <= current_rotor; current_rotor--) {
-    (rotors[current_rotor])->rotate();
-  }
-
-      
       output[output_length] = current_char;
       output_length++;
       
     }
     // display error INVALID_INPUT_CHARACTER
+    
   }
-
   // output
   std::cout << std::endl << "Here is your output: ";
   for (int index=0; index<output_length; index++) { std::cout << output[index]; };
