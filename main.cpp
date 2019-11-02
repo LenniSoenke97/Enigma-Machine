@@ -10,6 +10,8 @@
 
 
 int main(int argc, char** argv) {
+  std::cerr << "ERROR";
+  return 1;
   int r;
   
   //
@@ -77,4 +79,5 @@ int main(int argc, char** argv) {
   }
   // output
   // for (int index=0; index<output_length; index++) { std::cout << output[index]; };
+  return 0;
 }
