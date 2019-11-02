@@ -10,14 +10,13 @@
 
 
 int main(int argc, char** argv) {
-  std::cerr << "ERROR";
-  return 1;
   int r;
   
   //
   // parse command line arguments
   //
-  if(argc < 4) {
+  // if(argc < 4) {
+  if(true) {
     std::cerr << "INSUFFICIENT_NUMBER_OF_PARAMETERS" << std::endl;
     return 1;
     return INSUFFICIENT_NUMBER_OF_PARAMETERS;
