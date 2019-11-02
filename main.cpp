@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
   // if(argc < 4) {
   if(true) {
     std::cerr << "INSUFFICIENT_NUMBER_OF_PARAMETERS" << std::endl;
-    return 1;
+    // return 1;
     return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
   std::string plugboard_config = argv[1], reflector_config = argv[2];
