@@ -60,15 +60,14 @@ void Reflector::convert(char* input_char) {
 
 void EnigmaMachine::convert(char* input_char) {
   int rotors_to_rotate = 1;
-  /*
+  
   for(; rotors_to_rotate <= number_of_rotors; rotors_to_rotate++) {
     if(!((this->rotors[rotors_to_rotate-1])->at_rotation_notch())) break;
   }
-  for(int current_rotor = 0; current_rotor < rotors_to_rotate; current_rotor++) {
-    std::cout << "r";
+  for(int current_rotor = 0; current_rotor < rotors_to_rotate && current_rotor < number_of_rotors; current_rotor++) {
+    std::cout << " r ";
     (this->rotors[number_of_rotors-current_rotor-1])->rotate();
   }
-  */
 
   
 
@@ -78,7 +77,7 @@ void EnigmaMachine::convert(char* input_char) {
   // Rotor convert
   for(int current_rotor = (number_of_rotors-1); 0 <= current_rotor; current_rotor--) {
     (this->rotors[current_rotor])->convert_backward(input_char);
-    }
+  }
  
   // Reflector convert
   reflector->convert(input_char);
