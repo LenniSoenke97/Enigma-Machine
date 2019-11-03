@@ -59,24 +59,17 @@ int main(int argc, char** argv) {
   //
   // input -> output
   //
-  char output[1024];
-  int output_length = 0;
   char current_char = '1';
   // while(current_char != '0') {
-  while(std::cin >> std::was >> current_char) {
+  while(std::cin >> std::ws >> current_char) {
   //std::cin >> std::ws >>current_char;
-    if (current_char == '0') continue;
     if ('A' <= current_char && current_char <= 'Z') {
       enigma_machine->convert(&current_char);
       std::cout << current_char;
-      output[output_length] = current_char;
-      output_length++;
-      
     }
     // return INVALID_INPUT_CHARACTER;
     
   }
-  // output
-  // for (int index=0; index<output_length; index++) { std::cout << output[index]; };
+  
   return 0;
 }
