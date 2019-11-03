@@ -90,6 +90,7 @@ void EnigmaMachine::convert(char* input_char) {
   // Plugboard convert
   plugboard->convert(input_char);
 
+  
   /*
   int rotors_to_rotate = 1;
   for(; rotors_to_rotate <= number_of_rotors; rotors_to_rotate++) {
