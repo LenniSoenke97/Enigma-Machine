@@ -67,7 +67,6 @@ class Rotor {
   int config_file_integers[26];
   int config_int_count = 0;
   int current_pos = 0;
-  std::ifstream config;
   
 public:
   /*
@@ -76,8 +75,8 @@ public:
    * Input: file path to rotor config file
    * Output: initialised rotor
    */
-  Rotor(std::string config_file_path, std::string starting_pos_config_file_path, int rotor_pos) {
-    config.open(config_file_path);
+  int config(std::string config_file_path, std::string starting_pos_config_file_path, int rotor_pos) {
+    std::ifstream config(config_file_path);
     std::ifstream starting_config(starting_pos_config_file_path);
     if (!config || !starting_config) {
       std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
@@ -122,9 +121,10 @@ public:
         throw NO_ROTOR_STARTING_POSITION;
       }
     }
-    if (starting_pos == 0) return;
+    if (starting_pos == 0) return 0;
     this->rotate(starting_pos);
 
+    return 0;
   }
 
   void convert_forward(char* input_char);
@@ -145,7 +145,6 @@ public:
 class Reflector {
   int config_file_integers[26];
   int config_int_count = 0;
-  std::ifstream config;
   
 public:
   /*
@@ -154,8 +153,8 @@ public:
    * Input: file path to reflector config file
    * Output: initialised reflector
    */
-  Reflector(std::string config_file_path) {
-    config.open(config_file_path);
+  int config(std::string config_file_path) {
+    std::ifstream config(config_file_path);
     if (!config) {
       std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
       throw ERROR_OPENING_CONFIGURATION_FILE;
@@ -187,6 +186,8 @@ public:
       std::cout << "INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS: " << config_int_count << std::endl;
       throw INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
+
+    return 0;
   };
 
   void convert(char* input_char);

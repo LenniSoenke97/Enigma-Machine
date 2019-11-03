@@ -43,7 +43,9 @@ int main(int argc, char** argv) {
     std::string rotor_starting_pos = argv[argc-1];
 
     for (int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
-      Rotor* rotor = new Rotor(argv[current_rotor+3], rotor_starting_pos, current_rotor);
+      Rotor* rotor = new Rotor();
+      r = rotor->config(argv[current_rotor+3], rotor_starting_pos, current_rotor);
+      if (r) return r;
       enigma_machine->setRotor(rotor);
     }
   }
@@ -51,7 +53,9 @@ int main(int argc, char** argv) {
   //
   // init reflector
   //
-  Reflector* reflector = new Reflector(reflector_config);
+  Reflector* reflector = new Reflector();
+  r = reflector->config(reflector_config);
+  if (r) return r;
   enigma_machine->setReflector(reflector);
   
   //
