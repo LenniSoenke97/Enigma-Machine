@@ -11,7 +11,9 @@
 
 int main(int argc, char** argv) {
   int r;
-  
+
+  std::cout << argc;
+  return argc;
   //
   // parse command line arguments
   //
