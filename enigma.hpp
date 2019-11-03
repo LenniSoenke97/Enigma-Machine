@@ -26,11 +26,6 @@ public:
     int current_int;
     
     while(config.good()) {
-      if (config_int_count == 26) {
-	std::cout << "INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS" << std::endl;
-	return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
-      }
-
       if (!(config >> current_int)) {
 	if (config.eof()) break;
 	std::cout << "NON_NUMERIC_CHARACTER" << std::endl;
@@ -41,15 +36,15 @@ public:
 	return INVALID_INDEX;
       }
       for(int i; i < config_int_count; i++) {
-        if (current_int == config_file_integers[i]) {
+	if (current_int == config_file_integers[i]) {
 	  std::cout << "IMPOSSIBLE_PLUGBOARD_CONFIGURATION" << std::endl;
 	  return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
-        }
+	}
       }
       config_file_integers[config_int_count] = current_int;
       config_int_count++;
     }
-    if(config_int_count%2) {
+    if((config_int_count%2) || (config_int_count > 25)) {
       std::cout << "INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS: " << config_int_count << std::endl;
       return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
     }
@@ -75,14 +70,14 @@ class Rotor {
   std::ifstream config;
   
 public:
-   /*
+  /*
    * Name: Rotor constructor
    * Description: Takes a file path and loads all the numbers from that file path into the config_file_integers array, furthermore it checks whether the file (and thus the rotor) is valid
    * Input: file path to rotor config file
    * Output: initialised rotor
    */
   Rotor(std::string config_file_path, std::string starting_pos_config_file_path, int rotor_pos) {
-     config.open(config_file_path);
+    config.open(config_file_path);
     std::ifstream starting_config(starting_pos_config_file_path);
     if (!config || !starting_config) {
       std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
@@ -140,7 +135,7 @@ public:
 
 
 
-   void display_rotor() { ///// DELETE THIS
+  void display_rotor() { ///// DELETE THIS
     for(int index=0; index < 26; index++) {
       std::cout << config_file_integers[index] << " ";
     }
@@ -153,7 +148,7 @@ class Reflector {
   std::ifstream config;
   
 public:
-   /*
+  /*
    * Name: Reflector constructor
    * Description: Takes a file path and loads all the numbers from that file path into the config_file_integers array, furthermore it checks whether the file (and thus the reflector) is valid
    * Input: file path to reflector config file
