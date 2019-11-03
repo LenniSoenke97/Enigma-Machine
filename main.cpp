@@ -62,8 +62,9 @@ int main(int argc, char** argv) {
   char output[1024];
   int output_length = 0;
   char current_char = '1';
-  while(current_char != '0') {
-    std::cin >> std::ws >>current_char;
+  // while(current_char != '0') {
+  while(std::cin >> std::was >> current_char) {
+  //std::cin >> std::ws >>current_char;
     if (current_char == '0') continue;
     if ('A' <= current_char && current_char <= 'Z') {
       enigma_machine->convert(&current_char);
