@@ -18,16 +18,16 @@ public:
    * Output: initialised plugboard
    */
   int config(std::string config_file_path) {
-    std::ifstream config(config_file_path);
-    if (!config) {
+    std::ifstream config_file(config_file_path);
+    if (!config_file) {
       std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
       return ERROR_OPENING_CONFIGURATION_FILE;
     }
     int current_int;
     
-    while(config.good()) {
-      if (!(config >> current_int)) {
-	if (config.eof()) break;
+    while(config_file.good()) {
+      if (!(config_file >> current_int)) {
+	if (config_file.eof()) break;
 	std::cout << "NON_NUMERIC_CHARACTER" << std::endl;
 	return NON_NUMERIC_CHARACTER;
       }
@@ -76,17 +76,17 @@ public:
    * Output: initialised rotor
    */
   int config(std::string config_file_path, std::string starting_pos_config_file_path, int rotor_pos) {
-    std::ifstream config(config_file_path);
+    std::ifstream config_file(config_file_path);
     std::ifstream starting_config(starting_pos_config_file_path);
-    if (!config || !starting_config) {
+    if (!config_file || !starting_config) {
       std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
       throw ERROR_OPENING_CONFIGURATION_FILE;
     }
     
     int current_int;
 
-    while(config.good() && config_int_count <= 26) {
-      if (!(config >> current_int)) {
+    while(config_file.good() && config_int_count <= 26) {
+      if (!(config_file >> current_int)) {
         std::cout << "NON_NUMERIC_CHARACTER" << std::endl;
         throw NON_NUMERIC_CHARACTER;
       }
@@ -96,7 +96,7 @@ public:
       }
       
       if (config_int_count == 26) {
-        config >> rotate_notch_pos;
+        config_file >> rotate_notch_pos;
         break;
       }
 
@@ -154,16 +154,16 @@ public:
    * Output: initialised reflector
    */
   int config(std::string config_file_path) {
-    std::ifstream config(config_file_path);
-    if (!config) {
+    std::ifstream config_file(config_file_path);
+    if (!config_file) {
       std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
       throw ERROR_OPENING_CONFIGURATION_FILE;
     }
     int current_int;
 
-    while(config.good()) {
-      if (!(config >> current_int)) {
-        if (config.eof()) break;
+    while(config_file.good()) {
+      if (!(config_file >> current_int)) {
+        if (config_file.eof()) break;
         std::cout << "NON_NUMERIC_CHARACTER" << std::endl;
         throw NON_NUMERIC_CHARACTER;
       }
