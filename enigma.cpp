@@ -64,7 +64,7 @@ void EnigmaMachine::convert(char* input_char) {
     if(!((this->rotors[rotors_to_rotate-1])->at_rotation_notch())) break;
   }
   for(int current_rotor = 0; current_rotor < rotors_to_rotate; current_rotor++) {
-    std::cout << "rotatin ";
+    std::cout << "r";
     (this->rotors[number_of_rotors-current_rotor-1])->rotate();
   }
 
