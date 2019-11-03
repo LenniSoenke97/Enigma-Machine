@@ -44,7 +44,7 @@ public:
       config_file_integers[config_int_count] = current_int;
       config_int_count++;
     }
-    if((config_int_count%2) || (config_int_count > 25)) {
+    if((config_int_count%2) || (config_int_count > 26)) {
       std::cout << "INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS: " << config_int_count << std::endl;
       return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
     }
@@ -195,9 +195,9 @@ public:
 
 class EnigmaMachine {
   Plugboard* plugboard;
+  Reflector* reflector;
   Rotor* rotors[100];
   int number_of_rotors = 0;
-  Reflector* reflector;
 
 public:
   void setPlugboard(Plugboard* plugboard) { this->plugboard = plugboard; };
@@ -206,7 +206,6 @@ public:
     rotors[number_of_rotors] = rotor;
     number_of_rotors++;
   };
-
   void convert(char* input_char);
 };
 

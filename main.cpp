@@ -15,17 +15,12 @@ int main(int argc, char** argv) {
   //
   // parse command line arguments
   //
-  //if(argc < 4) {
-  if(false) {
+  if(argc < 3) {
     std::cerr << "usage: enigma plugboard-file reflector-file (<rotor-file>* rotor-positions)?";
     return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
   std::string plugboard_config = argv[1], reflector_config = argv[2];
   int number_of_rotors = argc - 4; // argv[0]; argv[1]; argv[2]; argv[argc-1];
-  std::string rotor_configs[number_of_rotors];
-  for (int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
-    rotor_configs[current_rotor] = argv[current_rotor+3];
-  }
 
   //
   // init enigma machine
@@ -43,12 +38,15 @@ int main(int argc, char** argv) {
   //
   // init rotors
   //
-  std::string rotor_starting_pos = argv[argc-1];
-  for (int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
-    Rotor* rotor = new Rotor(rotor_configs[current_rotor], rotor_starting_pos, current_rotor);
-    enigma_machine->setRotor(rotor);
+
+  if(number_of_rotors > 0) {
+    std::string rotor_starting_pos = argv[argc-1];
+
+    for (int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
+      Rotor* rotor = new Rotor(argv[current_rotor+3], rotor_starting_pos, current_rotor);
+      enigma_machine->setRotor(rotor);
+    }
   }
- 
 
   //
   // init reflector
@@ -70,6 +68,6 @@ int main(int argc, char** argv) {
     std::cerr << "Invalid character";
     return INVALID_INPUT_CHARACTER;    
   }
-  std::cout << "I am at the end";
+ 
   return 0;
 }
