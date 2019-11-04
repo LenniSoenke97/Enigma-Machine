@@ -124,6 +124,10 @@ public:
         return NO_ROTOR_STARTING_POSITION;
       }
     }
+
+     display_rotor();
+
+     
     if (starting_pos == 0) return 0;
     this->rotate(starting_pos);
 
@@ -138,7 +142,12 @@ public:
     return (current_pos == rotate_notch_pos);
   };
 
-
+  void display_rotor() { ///// DELETE THIS
+    for(int index=0; index < 26; index++) {
+      std::cout << config_file_integers[index] << " ";
+    }
+    std::cout << " current pos: " << current_pos << " - notch: " << rotate_notch_pos << "! ";
+  }
 };
 
 class Reflector {
