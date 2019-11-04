@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
   // parse command line arguments
   //
   if(argc < 3) {
-    std::cerr << "usage: enigma plugboard-file reflector-file (<rotor-file>* rotor-positions)?";
+    std::cerr << "usage: enigma plugboard-file reflector-file (<rotor-file>* rotor-positions)?" << std::endl;
     return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
   std::string plugboard_config = argv[1], reflector_config = argv[2];

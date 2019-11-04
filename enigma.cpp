@@ -32,6 +32,7 @@ void Rotor::convert_backward(char* input_char) {
 
 void Rotor::rotate(int by_positions) {
   current_pos += by_positions;
+  if (current_pos > 25) current_pos = 26 - current_pos;
   int new_config_file_integers[26], new_config_file_index;
   for(int old_config_file_index=0;old_config_file_index<26;old_config_file_index++) {
     new_config_file_index = old_config_file_index+by_positions;
@@ -62,10 +63,9 @@ void EnigmaMachine::convert(char* input_char) {
   int rotors_to_rotate = 1;
   
   for(; rotors_to_rotate <= number_of_rotors; rotors_to_rotate++) {
-    if(!((this->rotors[rotors_to_rotate-1])->at_rotation_notch())) break;
+    if(!((this->rotors[number_of_rotors-rotors_to_rotate])->at_rotation_notch())) break;
   }
   for(int current_rotor = 0; current_rotor < rotors_to_rotate && current_rotor < number_of_rotors; current_rotor++) {
-    std::cout << " r ";
     (this->rotors[number_of_rotors-current_rotor-1])->rotate();
   }
 

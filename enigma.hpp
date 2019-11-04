@@ -88,7 +88,7 @@ public:
     
     int current_int;
 
-    while(config_file.good() && config_int_count <= 26) {
+    while(config_file.good()) {
       if (!(config_file >> current_int)) {
         std::cout << "NON_NUMERIC_CHARACTER" << std::endl;
         throw NON_NUMERIC_CHARACTER;
@@ -98,9 +98,9 @@ public:
         throw INVALID_INDEX;
       }
       
-      if (config_int_count == 26) {
-        config_file >> rotate_notch_pos;
-        break;
+      if (config_int_count == 26) {	
+        rotate_notch_pos = current_int;
+	break;
       }
 
       for(int i; i < config_int_count; i++) {
@@ -134,15 +134,11 @@ public:
   void convert_backward(char* input_char);
 
   void rotate(int by_positions=1);
-  bool at_rotation_notch() { return (current_pos == rotate_notch_pos); };
+  bool at_rotation_notch() {
+    return (current_pos == rotate_notch_pos);
+  };
 
 
-
-  void display_rotor() { ///// DELETE THIS
-    for(int index=0; index < 26; index++) {
-      std::cout << config_file_integers[index] << " ";
-    }
-  }
 };
 
 class Reflector {
