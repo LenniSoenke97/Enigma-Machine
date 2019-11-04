@@ -29,7 +29,7 @@ public:
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
 	if (config_file.eof()) break;
-	std::cerr << "NON_NUMERIC_CHARACTER" << std::endl;
+	std::cerr << "Non-numeric character in plugboard file plugboard.pb" << std::endl;
 	return NON_NUMERIC_CHARACTER;
       }
       if (current_int < 0 || 25 < current_int) {
@@ -46,7 +46,7 @@ public:
       config_int_count++;
     }
     if((config_int_count%2) || (config_int_count > 26)) {
-      std::cerr << "INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS: " << config_int_count << std::endl;
+      std::cerr << "Incorrect number of parameters in plugboard file plugboard.pb" << std::endl;
       return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
     }
 
@@ -92,12 +92,12 @@ public:
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
 	if (config_file.eof()) break;
-        std::cerr << "NON_NUMERIC_CHARACTER" << std::endl;
+        std::cerr << "Non-numeric character for mapping in rotor file rotor.rot" << std::endl;
         return NON_NUMERIC_CHARACTER;
       }
 
       
-      std::cout<<current_int;
+      std::cout<<current_int << " ";
 
 
 
@@ -180,7 +180,7 @@ public:
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
         if (config_file.eof()) break;
-        std::cerr << "NON_NUMERIC_CHARACTER" << std::endl;
+        std::cerr << "Non-numeric character in reflector file reflector.rf" << std::endl;
         return NON_NUMERIC_CHARACTER;
       }
 
@@ -199,7 +199,7 @@ public:
     }
     
     if(config_int_count != 26) {
-      std::cerr << "INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS: " << config_int_count << std::endl;
+      std::cerr << "Insufficient number of mappings in reflector file: reflector.rf" << config_int_count << std::endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
 
