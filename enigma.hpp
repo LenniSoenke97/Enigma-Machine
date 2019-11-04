@@ -96,7 +96,7 @@ public:
         return NON_NUMERIC_CHARACTER;
       }
 
-      
+      if (rotor_pos == 0) return 0;
       std::cout<<current_int << " ";
 
 
