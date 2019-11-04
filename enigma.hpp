@@ -112,14 +112,20 @@ public:
 	continue;
       }
 
-      for(int i; i < config_int_count; i++) {
+      for(int i=0; i < config_int_count; i++) {
         if (current_int == config_file_integers[i]) {
-          std::cerr << "INVALID_ROTOR_MAPPING: " << current_int << " and " << config_file_integers[i] << std::endl;
+          std::cerr << "Invalid mapping out input " << config_int_count << " to output " << current_int << "(output " << current_int << " is alreadz mapped to from input " << i << "( in" << std::endl;
           return INVALID_ROTOR_MAPPING;
         }
       }
+      
       config_file_integers[config_int_count] = current_int;
       config_int_count++;
+    }
+
+    if (config_int_count < 26) {
+      std::cerr << "Not all inputs mapped in rotor file: rotor.rot" << std::endl;
+      return INVALID_ROTOR_MAPPING;
     }
 
     int starting_pos;
