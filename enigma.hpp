@@ -21,7 +21,7 @@ public:
   int config(std::string config_file_path) {
     config_file.open(config_file_path);
     if (!config_file) {
-      std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
+      std::cerr << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
       return ERROR_OPENING_CONFIGURATION_FILE;
     }
     int current_int;
@@ -29,16 +29,16 @@ public:
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
 	if (config_file.eof()) break;
-	std::cout << "NON_NUMERIC_CHARACTER" << std::endl;
+	std::cerr << "NON_NUMERIC_CHARACTER" << std::endl;
 	return NON_NUMERIC_CHARACTER;
       }
       if (current_int < 0 || 25 < current_int) {
-	std::cout << "INVALID_INDEX" << std::endl;
+	std::cerr << "INVALID_INDEX" << std::endl;
 	return INVALID_INDEX;
       }
       for(int i; i < config_int_count; i++) {
 	if (current_int == config_file_integers[i]) {
-	  std::cout << "IMPOSSIBLE_PLUGBOARD_CONFIGURATION" << std::endl;
+	  std::cerr << "IMPOSSIBLE_PLUGBOARD_CONFIGURATION" << std::endl;
 	  return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 	}
       }
@@ -46,7 +46,7 @@ public:
       config_int_count++;
     }
     if((config_int_count%2) || (config_int_count > 26)) {
-      std::cout << "INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS: " << config_int_count << std::endl;
+      std::cerr << "INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS: " << config_int_count << std::endl;
       return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
     }
 
@@ -95,7 +95,13 @@ public:
         std::cerr << "NON_NUMERIC_CHARACTER" << std::endl;
         return NON_NUMERIC_CHARACTER;
       }
-      if (current_int < 0 || 25 < current_int) {
+
+      
+      std::cout<<current_int;
+
+
+
+     if (current_int < 0 || 25 < current_int) {
         std::cerr << "INVALID_INDEX" << std::endl;
         return INVALID_INDEX;
       }
@@ -124,9 +130,8 @@ public:
       }
     }
 
-     display_rotor();
-
-     
+    std::cout<<"over";
+   
     if (starting_pos == 0) return 0;
     this->rotate(starting_pos);
 
@@ -146,7 +151,7 @@ public:
 
   void display_rotor() { ///// DELETE THIS
     for(int index=0; index < 26; index++) {
-      // std::cout << config_file_integers[index] << " ";
+      std::cerr << config_file_integers[index];
     }
     std::cout << " current pos: " << current_pos << " - notches: " << rotator_notch_number << "! ";
   }
