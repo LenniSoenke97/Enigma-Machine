@@ -64,7 +64,8 @@ public:
 };
 
 class Rotor {
-  int rotate_notch_pos;
+  int rotate_notches[25];
+  int rotator_notch_number = 0;
   int config_file_integers[26];
   int config_int_count = 0;
   int current_pos = 0;
@@ -90,6 +91,7 @@ public:
 
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
+	if (config_file.eof()) break;
         std::cerr << "NON_NUMERIC_CHARACTER" << std::endl;
         return NON_NUMERIC_CHARACTER;
       }
@@ -98,9 +100,10 @@ public:
         return INVALID_INDEX;
       }
       
-      if (config_int_count == 26) {	
-        rotate_notch_pos = current_int;
-	break;
+      if (config_int_count >= 26) {	
+        rotate_notches[rotator_notch_number] = current_int;
+	rotator_notch_number++;
+	continue;
       }
 
       for(int i; i < config_int_count; i++) {
@@ -111,10 +114,6 @@ public:
       }
       config_file_integers[config_int_count] = current_int;
       config_int_count++;
-    }
-    if(config_int_count != 26) {
-      std::cerr << "INAVLID_ROTOR_MAPPING" << std::endl;
-      return INVALID_ROTOR_MAPPING;
     }
 
     int starting_pos;
@@ -139,14 +138,17 @@ public:
 
   void rotate(int by_positions=1);
   bool at_rotation_notch() {
-    return (current_pos == rotate_notch_pos);
+    for(int current_notch=0; current_notch < rotator_notch_number; current_notch++) {
+      if (current_pos == rotate_notches[current_notch]) return true;
+    }
+    return false;
   };
 
   void display_rotor() { ///// DELETE THIS
     for(int index=0; index < 26; index++) {
       // std::cout << config_file_integers[index] << " ";
     }
-    std::cout << " current pos: " << current_pos << " - notch: " << rotate_notch_pos << "! ";
+    std::cout << " current pos: " << current_pos << " - notches: " << rotator_notch_number << "! ";
   }
 };
 
