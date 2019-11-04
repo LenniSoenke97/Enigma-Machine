@@ -82,20 +82,20 @@ public:
     config_file.open(config_file_path);
     starting_config.open(starting_pos_config_file_path);
     if (!config_file || !starting_config) {
-      std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
-      throw ERROR_OPENING_CONFIGURATION_FILE;
+      std::cerr << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
+      return ERROR_OPENING_CONFIGURATION_FILE;
     }
     
     int current_int;
 
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
-        std::cout << "NON_NUMERIC_CHARACTER" << std::endl;
-        throw NON_NUMERIC_CHARACTER;
+        std::cerr << "NON_NUMERIC_CHARACTER" << std::endl;
+        return NON_NUMERIC_CHARACTER;
       }
       if (current_int < 0 || 25 < current_int) {
-        std::cout << "INVALID_INDEX" << std::endl;
-        throw INVALID_INDEX;
+        std::cerr << "INVALID_INDEX" << std::endl;
+        return INVALID_INDEX;
       }
       
       if (config_int_count == 26) {	
@@ -105,23 +105,23 @@ public:
 
       for(int i; i < config_int_count; i++) {
         if (current_int == config_file_integers[i]) {
-          std::cout << "INVALID_ROTOR_MAPPING: " << current_int << " and " << config_file_integers[i] << std::endl;
-          throw INVALID_ROTOR_MAPPING;
+          std::cerr << "INVALID_ROTOR_MAPPING: " << current_int << " and " << config_file_integers[i] << std::endl;
+          return INVALID_ROTOR_MAPPING;
         }
       }
       config_file_integers[config_int_count] = current_int;
       config_int_count++;
     }
     if(config_int_count != 26) {
-      std::cout << "INAVLID_ROTOR_MAPPING" << std::endl;
-      throw INVALID_ROTOR_MAPPING;
+      std::cerr << "INAVLID_ROTOR_MAPPING" << std::endl;
+      return INVALID_ROTOR_MAPPING;
     }
 
     int starting_pos;
     for (int i=0; i<=rotor_pos; i++) {
       if(!(starting_config >> starting_pos)) {
-        std::cout << "NO_ROTOR_STARTING_POSITION" << std::endl;
-        throw NO_ROTOR_STARTING_POSITION;
+        std::cerr << "NO_ROTOR_STARTING_POSITION" << std::endl;
+        return NO_ROTOR_STARTING_POSITION;
       }
     }
     if (starting_pos == 0) return 0;
@@ -156,26 +156,26 @@ public:
   int config(std::string config_file_path) {
     config_file.open(config_file_path);
     if (!config_file) {
-      std::cout << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
-      throw ERROR_OPENING_CONFIGURATION_FILE;
+      std::cerr << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
+      return ERROR_OPENING_CONFIGURATION_FILE;
     }
     int current_int;
 
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
         if (config_file.eof()) break;
-        std::cout << "NON_NUMERIC_CHARACTER" << std::endl;
-        throw NON_NUMERIC_CHARACTER;
+        std::cerr << "NON_NUMERIC_CHARACTER" << std::endl;
+        return NON_NUMERIC_CHARACTER;
       }
 
       if (current_int < 0 || 25 < current_int) {
-        std::cout << "INVALID_INDEX" << std::endl;
-        throw INVALID_INDEX;
+        std::cerr << "INVALID_INDEX" << std::endl;
+        return INVALID_INDEX;
       }
       for(int i; i < config_int_count; i++) {
         if (current_int == config_file_integers[i]) {
-          std::cout << "INVALID_REFLECTOR_MAPPING" << std::endl;
-          throw INVALID_REFLECTOR_MAPPING;
+          std::cerr << "INVALID_REFLECTOR_MAPPING" << std::endl;
+          return INVALID_REFLECTOR_MAPPING;
         }
       }
       config_file_integers[config_int_count] = current_int;
@@ -183,8 +183,8 @@ public:
     }
     
     if(config_int_count != 26) {
-      std::cout << "INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS: " << config_int_count << std::endl;
-      throw INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
+      std::cerr << "INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS: " << config_int_count << std::endl;
+      return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
 
     return 0;
