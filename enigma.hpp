@@ -96,11 +96,6 @@ public:
         return NON_NUMERIC_CHARACTER;
       }
 
-      if (rotor_pos == 0) return 0;
-      std::cout<<current_int << " ";
-
-
-
      if (current_int < 0 || 25 < current_int) {
         std::cerr << "INVALID_INDEX" << std::endl;
         return INVALID_INDEX;
@@ -136,8 +131,7 @@ public:
       }
     }
 
-    std::cout<<"over";
-   
+    
     if (starting_pos == 0) return 0;
     this->rotate(starting_pos);
 
