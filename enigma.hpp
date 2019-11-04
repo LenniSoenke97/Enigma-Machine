@@ -144,7 +144,7 @@ public:
 
   void display_rotor() { ///// DELETE THIS
     for(int index=0; index < 26; index++) {
-      std::cout << config_file_integers[index] << " ";
+      // std::cout << config_file_integers[index] << " ";
     }
     std::cout << " current pos: " << current_pos << " - notch: " << rotate_notch_pos << "! ";
   }
