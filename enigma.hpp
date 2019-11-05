@@ -109,7 +109,7 @@ public:
 
       for(int i=0; i < config_int_count; i++) {
         if (current_int == config_file_integers[i]) {
-          std::cerr << "Invalid mapping out input " << config_int_count << " to output " << current_int << " (output " << current_int << " is already mapped to from input " << i << ") in" << std::endl;
+          std::cerr << "Invalid mapping of input " << config_int_count << " to output " << current_int << " (output " << current_int << " is already mapped to from input " << i << ") in" << std::endl;
           return INVALID_ROTOR_MAPPING;
         }
       }
@@ -127,13 +127,19 @@ public:
     for (int i=0; i<=rotor_pos; i++) {
       if(!(starting_config >> starting_pos)) {
 	if (starting_config.eof()) {
-	  std::cerr << "No starting position for rotor " << starting_pos << " in rotor position file: rotor.pos" << std::endl;
+	  std::cerr << "No starting position for rotor " << rotor_pos << " in rotor position file: rotor.pos" << std::endl;
 	  return NO_ROTOR_STARTING_POSITION;
 	}
 	 std::cerr << "Non-numeric character in rotor positions file rotor.pos" << std::endl;
         return NON_NUMERIC_CHARACTER;
        
       }
+    }
+
+    int next_pos;
+    if(!(starting_config >> next_pos)) {
+      std::cerr << "Non-numeric character in rotor positions file rotor.pos" << std::endl;
+        return NON_NUMERIC_CHARACTER;
     }
 
     
