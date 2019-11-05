@@ -136,8 +136,6 @@ public:
       }
     }
 
-    std::cout << starting_pos << " ";
-
     int next_pos;
     if(!(starting_config >> next_pos)) {
       if (starting_config.eof()) return 0;
@@ -213,7 +211,6 @@ public:
 
     }
 
-    std::cout << "reflector count: " << config_int_count;
     if(config_int_count % 2) {
       std::cerr << "Incorrect (odd) number of parameters in reflector file reflector.rf" << std::endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
