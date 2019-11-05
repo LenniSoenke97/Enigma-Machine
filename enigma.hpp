@@ -142,7 +142,6 @@ public:
         return NON_NUMERIC_CHARACTER;
     }
 
-    std:: cout << "sp " << rotor_pos << ": " << starting_pos;
     
     if (starting_pos == 0) return 0;
     this->rotate(starting_pos);
@@ -210,7 +209,10 @@ public:
       config_int_count++;
     }
 
-    if(config_int_count % 2) {
+    //
+    //possible problem point, was: if (config_int_count%2)
+    //
+    if(!(config_int_count % 2)) {
       std::cerr << "Incorrect (odd) number of parameters in reflector file reflector.rf" << std::endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }

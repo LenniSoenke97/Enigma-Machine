@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
   // parse command line arguments
   //
   if(argc < 3) {
-    std::cerr << "usage: enigma plugboard-file reflector-file (<rotor-file>* rotor-positions)?" << std::endl;
+    std::cerr << "usage: enigma plugboard-file reflector-file (<rotor-file>)* rotor-positions" << std::endl;
     return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
   std::string plugboard_config = argv[1], reflector_config = argv[2];
@@ -63,7 +63,6 @@ int main(int argc, char** argv) {
   //
   char current_char;
   while(std::cin >> std::ws >> current_char) {
-    std::cout << " " << current_char;
     // std::cin >> std::ws >>current_char;
     if ('A' <= current_char && current_char <= 'Z') {
       enigma_machine->convert(&current_char);
