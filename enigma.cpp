@@ -43,15 +43,15 @@ void Rotor::rotate(int by_positions) {
     }
     new_config_file_integers[new_config_file_index] = config_file_integers[old_config_file_index];
     }
-
-  /*
+  
+ 
   for(int old_config_file_index=0;old_config_file_index<26;old_config_file_index++) {
     new_config_file_index = old_config_file_index-by_positions;
     if (new_config_file_index < 0) {
       new_config_file_index += 26;
     }
     new_config_file_integers[new_config_file_index] = config_file_integers[old_config_file_index];
-    }*/
+    }
 
   for (int index=0; index < 26; index++) {
     config_file_integers[index] = new_config_file_integers[index];

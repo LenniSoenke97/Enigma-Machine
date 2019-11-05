@@ -90,7 +90,7 @@ public:
      size_t found = config_file_path.find_last_of("/\\");
     std::string config_file_name = config_file_path.substr(found+1);
      found = starting_pos_config_file_path.find_last_of("/\\");
-    std::string starting_pos_config_file_name = config_file_path.substr(found+1);
+    std::string starting_pos_config_file_name = starting_pos_config_file_path.substr(found+1);
     
     config_file.open(config_file_path);
     starting_config.open(starting_pos_config_file_path);
@@ -152,10 +152,12 @@ public:
       }
     }
 
-    //if (starting_pos > 0) {
-      //this->rotate(starting_pos);
-    this->current_pos = starting_pos;
-	//}
+    if (starting_pos > 0) {
+      starting_pos = 26-starting_pos;
+      this->rotate(starting_pos);
+      this->display_rotor();
+      //this->current_pos = starting_pos;
+      }
 
 
     int next_pos;
