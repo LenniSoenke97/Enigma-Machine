@@ -44,14 +44,11 @@ public:
       }
       config_file_integers[config_int_count] = current_int;
       config_int_count++;
-      std::cout << current_int << " ";
     }
     if((config_int_count%2) || (config_int_count > 26)) {
       std::cerr << "Incorrect number of parameters in plugboard file plugboard.pb" << std::endl;
       return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
     }
-
-    std::cout << " plugboard over";
 
     return 0;
 
@@ -210,6 +207,8 @@ public:
       }
       config_file_integers[config_int_count] = current_int;
       config_int_count++;
+
+      std::cout << current_int << " ";
     }
 
     if(config_int_count % 2) {
@@ -221,6 +220,8 @@ public:
       std::cerr << "Insufficient number of mappings in reflector file: reflector.rf" << std::endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
+
+    std::cout << " reflector over";
 
     return 0;
   };
