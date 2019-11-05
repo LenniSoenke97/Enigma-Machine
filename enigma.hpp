@@ -136,6 +136,8 @@ public:
       }
     }
 
+    std::cout << starting_pos << " ";
+
     int next_pos;
     if(!(starting_config >> next_pos)) {
       if (starting_config.eof()) return 0;
