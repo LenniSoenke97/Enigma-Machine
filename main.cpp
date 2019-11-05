@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
       std::cout << current_char;
       continue;
     }
-    std::cerr << "Invalid character";
+    std::cerr << current_char << " is not a valid input character (input characters must be upper case letters A-Z)!" << std::endl;
     return INVALID_INPUT_CHARACTER;    
   }
  
