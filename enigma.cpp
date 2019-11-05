@@ -79,9 +79,9 @@ void EnigmaMachine::convert(char* input_char) {
   // Rotor convert
   for(int current_rotor = (number_of_rotors-1); 0 <= current_rotor; current_rotor--) {
     //(this->rotors[current_rotor])->convert_backward(input_char);
+    (this->rotors[current_rotor])->convert_forward(input_char);
     std::cout << "arot: " << *input_char << std::endl;
     (this->rotors[current_rotor])->display_rotor();
-    (this->rotors[current_rotor])->convert_forward(input_char);
   }
   
   // Reflector convert
