@@ -142,6 +142,7 @@ public:
         return NON_NUMERIC_CHARACTER;
     }
 
+    std:: cout << "sp " << rotor_pos << ": " << starting_pos;
     
     if (starting_pos == 0) return 0;
     this->rotate(starting_pos);
@@ -207,8 +208,6 @@ public:
       }
       config_file_integers[config_int_count] = current_int;
       config_int_count++;
-
-      std::cout << current_int << " ";
     }
 
     if(config_int_count % 2) {
@@ -220,8 +219,6 @@ public:
       std::cerr << "Insufficient number of mappings in reflector file: reflector.rf" << std::endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
-
-    std::cout << " reflector over";
 
     return 0;
   };
