@@ -25,9 +25,11 @@ void Rotor::convert_backward(char* input_char) {
   int input_int = static_cast<int>(*input_char) - 65;
   int input_index=0;
   for(;;input_index++) {
-    if(input_int == config_file_integers[input_index]) break;
+    if(input_int == config_file_integers[input_index]) {
+      *input_char = static_cast<char>(input_index + 65);
+      return;
+    }
   }
-  *input_char = static_cast<char>(input_index + 65);
 }
 
 void Rotor::rotate(int by_positions) {
@@ -61,14 +63,12 @@ void Reflector::convert(char* input_char) {
 
 void EnigmaMachine::convert(char* input_char) {
   int rotors_to_rotate = 1;
-
-  
   for(; rotors_to_rotate <= number_of_rotors; rotors_to_rotate++) {
     if(!((this->rotors[number_of_rotors-rotors_to_rotate])->at_rotation_notch())) break;
   }
   for(int current_rotor = 0; current_rotor < rotors_to_rotate && current_rotor < number_of_rotors; current_rotor++) {
     (this->rotors[number_of_rotors-current_rotor-1])->rotate();
-    }
+  }
 
   
 
