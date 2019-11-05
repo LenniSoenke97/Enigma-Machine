@@ -207,7 +207,11 @@ public:
       }
       config_file_integers[config_int_count] = current_int;
       config_int_count++;
+
+      std::cout << current_int << " ";
     }
+
+    std::cout << " reflector over ";
 
     //
     //possible problem point, was: if (config_int_count%2)

@@ -36,9 +36,16 @@ int main(int argc, char** argv) {
   enigma_machine->setPlugboard(plugboard);
 
   //
+  // init reflector
+  //
+  Reflector* reflector = new Reflector();
+  r = reflector->config(reflector_config);
+  if (r) return r;
+  enigma_machine->setReflector(reflector);
+  
+  //
   // init rotors
   //
-
   if(number_of_rotors > 0) {
     std::string rotor_starting_pos = argv[argc-1];
 
@@ -50,13 +57,7 @@ int main(int argc, char** argv) {
     }
   }
 
-  //
-  // init reflector
-  //
-  Reflector* reflector = new Reflector();
-  r = reflector->config(reflector_config);
-  if (r) return r;
-  enigma_machine->setReflector(reflector);
+ 
   
   //
   // input -> output
