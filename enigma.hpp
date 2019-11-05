@@ -138,6 +138,7 @@ public:
 
     int next_pos;
     if(!(starting_config >> next_pos)) {
+      if (starting_config.eof()) return 0;
       std::cerr << "Non-numeric character in rotor positions file rotor.pos" << std::endl;
         return NON_NUMERIC_CHARACTER;
     }
@@ -208,15 +209,10 @@ public:
       config_file_integers[config_int_count] = current_int;
       config_int_count++;
 
-      std::cout << current_int << " ";
     }
 
-    std::cout << " reflector over ";
-
-    //
-    //possible problem point, was: if (config_int_count%2)
-    //
-    if(!(config_int_count % 2)) {
+    std::cout << "reflector count: " << config_int_count;
+    if(config_int_count % 2) {
       std::cerr << "Incorrect (odd) number of parameters in reflector file reflector.rf" << std::endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
