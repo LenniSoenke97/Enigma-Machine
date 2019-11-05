@@ -29,16 +29,16 @@ public:
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
 	if (config_file.eof()) break;
-	std::cerr << "Non-numeric character in plugboard file plugboard.pb" << std::endl;
+	std::cerr << "Non-numeric character in plugboard file " << config_file_path << std::endl;
 	return NON_NUMERIC_CHARACTER;
       }
       if (current_int < 0 || 25 < current_int) {
-	std::cerr << "INVALID_INDEX" << std::endl;
+	std::cerr << "Invalid Index used in plugboard file " << config_file_path << std::endl;
 	return INVALID_INDEX;
       }
       for(int i; i < config_int_count; i++) {
 	if (current_int == config_file_integers[i]) {
-	  std::cerr << "IMPOSSIBLE_PLUGBOARD_CONFIGURATION" << std::endl;
+	  std::cerr << "Impossible plugboard configuration found in plugboard file" << config_file_path << std::endl;
 	  return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 	}
       }
@@ -46,7 +46,7 @@ public:
       config_int_count++;
     }
     if((config_int_count%2) || (config_int_count > 26)) {
-      std::cerr << "Incorrect number of parameters in plugboard file plugboard.pb" << std::endl;
+      std::cerr << "Incorrect number of parameters in plugboard file " << config_file_path << std::endl;
       return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
     }
 
@@ -83,7 +83,11 @@ public:
     config_file.open(config_file_path);
     starting_config.open(starting_pos_config_file_path);
     if (!config_file || !starting_config) {
-      std::cerr << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
+      std::cerr <<  "Error occured whilst opening rotor file: " << config_file_path << std::endl;
+      return ERROR_OPENING_CONFIGURATION_FILE;
+    }
+    if (!starting_config) {
+      std::cerr << "Error occured whilst opening rotor position file: " << starting_pos_config_file_path << std::endl;
       return ERROR_OPENING_CONFIGURATION_FILE;
     }
     
@@ -92,12 +96,12 @@ public:
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
 	if (config_file.eof()) break;
-        std::cerr << "Non-numeric character for mapping in rotor file rotor.rot" << std::endl;
+        std::cerr << "Non-numeric character for mapping in rotor file " << config_file_path << std::endl;
         return NON_NUMERIC_CHARACTER;
       }
 
      if (current_int < 0 || 25 < current_int) {
-        std::cerr << "INVALID_INDEX" << std::endl;
+        std::cerr << "Invalid Index used in rotor file " << config_file_path << std::endl;
         return INVALID_INDEX;
       }
       
@@ -109,7 +113,7 @@ public:
 
       for(int i=0; i < config_int_count; i++) {
         if (current_int == config_file_integers[i]) {
-          std::cerr << "Invalid mapping of input " << config_int_count << " to output " << current_int << " (output " << current_int << " is already mapped to from input " << i << ") in" << std::endl;
+          std::cerr << "Invalid mapping of input " << config_int_count << " to output " << current_int << " (output " << current_int << " is already mapped to from input " << i << ") in rotor file " << config_file_path << std::endl;
           return INVALID_ROTOR_MAPPING;
         }
       }
@@ -119,7 +123,7 @@ public:
     }
 
     if (config_int_count < 26) {
-      std::cerr << "Not all inputs mapped in rotor file: rotor.rot" << std::endl;
+      std::cerr << "Not all inputs mapped in rotor file: " << config_file_path << std::endl;
       return INVALID_ROTOR_MAPPING;
     }
 
@@ -127,10 +131,10 @@ public:
     for (int i=0; i<=rotor_pos; i++) {
       if(!(starting_config >> starting_pos)) {
 	if (starting_config.eof()) {
-	  std::cerr << "No starting position for rotor " << rotor_pos << " in rotor position file: rotor.pos" << std::endl;
+	  std::cerr << "No starting position for rotor " << rotor_pos << " in rotor position file: " << starting_pos_config_file_path << std::endl;
 	  return NO_ROTOR_STARTING_POSITION;
 	}
-	 std::cerr << "Non-numeric character in rotor positions file rotor.pos" << std::endl;
+	std::cerr << "Non-numeric character in rotor positions file " << starting_pos_config_file_path << std::endl;
         return NON_NUMERIC_CHARACTER;
        
       }
@@ -139,7 +143,7 @@ public:
     int next_pos;
     if(!(starting_config >> next_pos)) {
       if (starting_config.eof()) return 0;
-      std::cerr << "Non-numeric character in rotor positions file rotor.pos" << std::endl;
+      std::cerr << "Non-numeric character in rotor positions file " << starting_pos_config_file_path << std::endl;
         return NON_NUMERIC_CHARACTER;
     }
 
@@ -184,7 +188,7 @@ public:
   int config(std::string config_file_path) {
     config_file.open(config_file_path);
     if (!config_file) {
-      std::cerr << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
+      std::cerr <<  "Error occured whilst opening rotor file: " << config_file_path << std::endl;
       return ERROR_OPENING_CONFIGURATION_FILE;
     }
     int current_int;
@@ -192,17 +196,17 @@ public:
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
         if (config_file.eof()) break;
-        std::cerr << "Non-numeric character in reflector file reflector.rf" << std::endl;
+        std::cerr << "Non-numeric character in reflector file " << config_file_path << std::endl;
         return NON_NUMERIC_CHARACTER;
       }
 
       if (current_int < 0 || 25 < current_int) {
-        std::cerr << "INVALID_INDEX" << std::endl;
+        std::cerr << "Invalid Index used in reflector file " << config_file_path << std::endl;
         return INVALID_INDEX;
       }
       for(int i; i < config_int_count; i++) {
         if (current_int == config_file_integers[i]) {
-          std::cerr << "INVALID_REFLECTOR_MAPPING" << std::endl;
+          std::cerr << "Invalid reflector mapping in reflector file " << config_file_path << std::endl;
           return INVALID_REFLECTOR_MAPPING;
         }
       }
@@ -212,12 +216,12 @@ public:
     }
 
     if(config_int_count % 2) {
-      std::cerr << "Incorrect (odd) number of parameters in reflector file reflector.rf" << std::endl;
+      std::cerr << "Incorrect (odd) number of parameters in reflector file " << config_file_path << std::endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
     
     if(config_int_count != 26) {
-      std::cerr << "Insufficient number of mappings in reflector file: reflector.rf" << std::endl;
+      std::cerr << "Insufficient number of mappings in reflector file " << config_file_path << std::endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
 
