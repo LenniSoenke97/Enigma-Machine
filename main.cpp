@@ -63,14 +63,17 @@ int main(int argc, char** argv) {
   //
   char current_char;
   while(std::cin >> std::ws >> current_char) {
+    std::cout << " " << current_char;
     // std::cin >> std::ws >>current_char;
+    /*
     if ('A' <= current_char && current_char <= 'Z') {
       enigma_machine->convert(&current_char);
       std::cout << current_char;
       continue;
     }
     std::cerr << current_char << " is not a valid input character (input characters must be upper case letters A-Z)!" << std::endl;
-    return INVALID_INPUT_CHARACTER;    
+    return INVALID_INPUT_CHARACTER;
+    */
   }
  
   return 0;
