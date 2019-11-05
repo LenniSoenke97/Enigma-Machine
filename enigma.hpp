@@ -152,9 +152,10 @@ public:
       }
     }
 
-    if (starting_pos > 0) {
-    this->rotate(starting_pos);
-    }
+    //if (starting_pos > 0) {
+      //this->rotate(starting_pos);
+    this->current_pos = starting_pos;
+	//}
 
 
     int next_pos;
