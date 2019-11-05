@@ -74,16 +74,21 @@ void EnigmaMachine::convert(char* input_char) {
 
   // Plugboard convert  
   plugboard->convert(input_char);
+  std::cout << "a,p: " << *input_char;
 
   // Rotor convert
   for(int current_rotor = (number_of_rotors-1); 0 <= current_rotor; current_rotor--) {
     //(this->rotors[current_rotor])->convert_backward(input_char);
+    std::cout << "arot: " << *input_char << std::endl;
+    (this->rotors[current_rotor])->display_rotor();
     (this->rotors[current_rotor])->convert_forward(input_char);
   }
   
   // Reflector convert
   reflector->convert(input_char);
-
+  std::cout << "aref: " << *input_char << std::endl;
+				     
+				      
   // Rotor convert
   for(int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
     // (this->rotors[current_rotor])->convert_forward(input_char);

@@ -1,0 +1,1 @@
+./enigma rotors_from_submission/I.plugboard ./rotors_from_submission/reflector.txt ./rotors_from_submission/I.rot rotors_from_submission/II.rot rotors_from_submission/starting_pos.txt ./rotors_from_submission/input.txt
