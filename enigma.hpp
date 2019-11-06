@@ -156,11 +156,11 @@ public:
     if (starting_pos > 0) {
       //starting_pos = 26-starting_pos;
       //std::cout << "starting pos: " << starting_pos << "      ";
-      this->display_rotor();
-      std::cout << std::endl;
+      //this->display_rotor();
+      //std::cout << std::endl;
       this->rotate(starting_pos);
-      this->display_rotor();
-      std::cout << std::endl;
+      //this->display_rotor();
+      //std::cout << std::endl;
       //this->current_pos = starting_pos;
       }
 
