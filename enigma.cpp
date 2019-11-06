@@ -52,22 +52,22 @@ void Rotor::rotate(int by_positions) {
   current_pos += by_positions;
   if (current_pos > 25) current_pos = 26 - current_pos;
   int new_config_file_offsets[26], new_config_file_index;
-  for(int old_config_file_index=0;old_config_file_index<26;old_config_file_index++) {
+  /*for(int old_config_file_index=0;old_config_file_index<26;old_config_file_index++) {
     new_config_file_index = old_config_file_index+by_positions;
     if (new_config_file_index > 25) {
       new_config_file_index -= 26;
     }
     new_config_file_offsets[new_config_file_index] = config_file_offsets[old_config_file_index];
-    }
+    }*/
   
-  /*
+  
   for(int old_config_file_index=0;old_config_file_index<26;old_config_file_index++) {
     new_config_file_index = old_config_file_index-by_positions;
     if (new_config_file_index < 0) {
       new_config_file_index += 26;
     }
     new_config_file_offsets[new_config_file_index] = config_file_offsets[old_config_file_index];
-    }*/
+    }
 
   for (int index=0; index < 26; index++) {
     config_file_offsets[index] = new_config_file_offsets[index];
