@@ -73,7 +73,7 @@ public:
 class Rotor {
   int rotate_notches[25];
   int rotator_notch_number = 0;
-  int config_file_integers[26];
+  int config_file_offsets[26];
   int config_int_count = 0;
   int current_pos = 0;
   std::ifstream config_file;
@@ -82,7 +82,7 @@ class Rotor {
 public:
   /*
    * Name: Rotor constructor
-   * Description: Takes a file path and loads all the numbers from that file path into the config_file_integers array, furthermore it checks whether the file (and thus the rotor) is valid
+   * Description: Takes a file path and loads all the numbers from that file path into the config_file_offsets array, furthermore it checks whether the file (and thus the rotor) is valid
    * Input: file path to rotor config file
    * Output: initialised rotor
    */
@@ -123,14 +123,15 @@ public:
 	continue;
       }
 
-      for(int i=0; i < config_int_count; i++) {
-        if (current_int == config_file_integers[i]) {
+      /*for(int i=0; i < config_int_count; i++) {
+        if (current_int == config_file_offsets[i]) {
           std::cerr << "Invalid mapping of input " << config_int_count << " to output " << current_int << " (output " << current_int << " is already mapped to from input " << i << ") in rotor file " << config_file_name << std::endl;
           return INVALID_ROTOR_MAPPING;
         }
-      }
+	}*/
+      // reimplement;
       
-      config_file_integers[config_int_count] = current_int;
+      config_file_offsets[config_int_count] = current_int - config_int_count;
       config_int_count++;
     }
 
@@ -153,9 +154,13 @@ public:
     }
 
     if (starting_pos > 0) {
-      starting_pos = 26-starting_pos;
+      //starting_pos = 26-starting_pos;
+      //std::cout << "starting pos: " << starting_pos << "      ";
+      this->display_rotor();
+      std::cout << std::endl;
       this->rotate(starting_pos);
       this->display_rotor();
+      std::cout << std::endl;
       //this->current_pos = starting_pos;
       }
 
@@ -183,7 +188,7 @@ public:
 
   void display_rotor() { ///// DELETE THIS
     for(int index=0; index < 26; index++) {
-      std::cerr << " " << config_file_integers[index];
+      std::cout << " " << config_file_offsets[index];
     }
     // std::cout << " current pos: " << current_pos << " - notches: " << rotator_notch_number << "! ";
   }

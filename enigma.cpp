@@ -15,17 +15,33 @@ void Plugboard::convert(char* input_char) {
   }
 }
 
-void Rotor::convert_forward(char* input_char) {	
+void Rotor::convert_forward(char* input_char) {
+  int rtl_list[26], mapped_input;
+  for (int i=0; i < 26; i++) {
+    mapped_input = config_file_offsets[i] + i;
+    if (mapped_input > 25) mapped_input -= 26;
+    if (mapped_input < 0) mapped_input += 26;
+    rtl_list[i] = mapped_input;
+  }
+  
   int input_int = static_cast<int>(*input_char) - 65;
-  int output_int = config_file_integers[input_int];
+  int output_int = rtl_list[input_int];
   *input_char = static_cast<char>(output_int + 65);
 }
 
 void Rotor::convert_backward(char* input_char) {
+  int rtl_list[26], mapped_input;
+  for (int i=0; i < 26; i++) {
+    mapped_input = config_file_offsets[i] + i;
+    if (mapped_input > 25) mapped_input -= 26;
+    if (mapped_input < 0) mapped_input += 26;
+    rtl_list[i] = mapped_input;
+  }
+  
   int input_int = static_cast<int>(*input_char) - 65;
   int input_index=0;
   for(;;input_index++) {
-    if(input_int == config_file_integers[input_index]) {
+    if(input_int == rtl_list[input_index]) {
       *input_char = static_cast<char>(input_index + 65);
       return;
     }
@@ -35,26 +51,26 @@ void Rotor::convert_backward(char* input_char) {
 void Rotor::rotate(int by_positions) {
   current_pos += by_positions;
   if (current_pos > 25) current_pos = 26 - current_pos;
-  int new_config_file_integers[26], new_config_file_index;
+  int new_config_file_offsets[26], new_config_file_index;
   for(int old_config_file_index=0;old_config_file_index<26;old_config_file_index++) {
     new_config_file_index = old_config_file_index+by_positions;
     if (new_config_file_index > 25) {
       new_config_file_index -= 26;
     }
-    new_config_file_integers[new_config_file_index] = config_file_integers[old_config_file_index];
+    new_config_file_offsets[new_config_file_index] = config_file_offsets[old_config_file_index];
     }
   
- 
+  /*
   for(int old_config_file_index=0;old_config_file_index<26;old_config_file_index++) {
     new_config_file_index = old_config_file_index-by_positions;
     if (new_config_file_index < 0) {
       new_config_file_index += 26;
     }
-    new_config_file_integers[new_config_file_index] = config_file_integers[old_config_file_index];
-    }
+    new_config_file_offsets[new_config_file_index] = config_file_offsets[old_config_file_index];
+    }*/
 
   for (int index=0; index < 26; index++) {
-    config_file_integers[index] = new_config_file_integers[index];
+    config_file_offsets[index] = new_config_file_offsets[index];
     }
 };  
 
@@ -78,8 +94,6 @@ void EnigmaMachine::convert(char* input_char) {
   for(int current_rotor = 0; current_rotor < rotors_to_rotate && current_rotor < number_of_rotors; current_rotor++) {
     (this->rotors[number_of_rotors-current_rotor-1])->rotate();
     }
-  
-  
 
   // Plugboard convert  
   plugboard->convert(input_char);
