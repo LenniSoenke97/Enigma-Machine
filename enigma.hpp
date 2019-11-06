@@ -74,6 +74,7 @@ class Rotor {
   int rotate_notches[25];
   int rotator_notch_number = 0;
   int config_file_offsets[26];
+  int rotor_mapping[26];
   int config_int_count = 0;
   int current_pos = 0;
   std::ifstream config_file;
@@ -123,14 +124,14 @@ public:
 	continue;
       }
 
-      /*for(int i=0; i < config_int_count; i++) {
-        if (current_int == config_file_offsets[i]) {
+      for(int i=0; i < config_int_count; i++) {
+        if (current_int == rotor_mapping[i]) {
           std::cerr << "Invalid mapping of input " << config_int_count << " to output " << current_int << " (output " << current_int << " is already mapped to from input " << i << ") in rotor file " << config_file_name << std::endl;
           return INVALID_ROTOR_MAPPING;
         }
-	}*/
-      // reimplement;
-      
+	}
+
+      rotor_mapping[config_int_count] = current_int;
       config_file_offsets[config_int_count] = current_int - config_int_count;
       config_int_count++;
     }
@@ -154,14 +155,7 @@ public:
     }
 
     if (starting_pos > 0) {
-      //starting_pos = 26-starting_pos;
-      //std::cout << "starting pos: " << starting_pos << "      ";
-      //this->display_rotor();
-      //std::cout << std::endl;
       this->rotate(starting_pos);
-      //this->display_rotor();
-      //std::cout << std::endl;
-      //this->current_pos = starting_pos;
       }
 
 
@@ -175,6 +169,7 @@ public:
     return 0;
   }
 
+  void remap();
   void convert_forward(char* input_char);
   void convert_backward(char* input_char);
 

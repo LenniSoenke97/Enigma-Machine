@@ -15,33 +15,27 @@ void Plugboard::convert(char* input_char) {
   }
 }
 
-void Rotor::convert_forward(char* input_char) {
-  int rtl_list[26], mapped_input;
+void Rotor::remap() {
+  int  mapped_input;
   for (int i=0; i < 26; i++) {
     mapped_input = config_file_offsets[i] + i;
     if (mapped_input > 25) mapped_input -= 26;
     if (mapped_input < 0) mapped_input += 26;
-    rtl_list[i] = mapped_input;
+    rotor_mapping[i] = mapped_input;
   }
-  
+}
+
+void Rotor::convert_forward(char* input_char) {
   int input_int = static_cast<int>(*input_char) - 65;
-  int output_int = rtl_list[input_int];
+  int output_int = rotor_mapping[input_int];
   *input_char = static_cast<char>(output_int + 65);
 }
 
-void Rotor::convert_backward(char* input_char) {
-  int rtl_list[26], mapped_input;
-  for (int i=0; i < 26; i++) {
-    mapped_input = config_file_offsets[i] + i;
-    if (mapped_input > 25) mapped_input -= 26;
-    if (mapped_input < 0) mapped_input += 26;
-    rtl_list[i] = mapped_input;
-  }
-  
+void Rotor::convert_backward(char* input_char) { 
   int input_int = static_cast<int>(*input_char) - 65;
   int input_index=0;
   for(;;input_index++) {
-    if(input_int == rtl_list[input_index]) {
+    if(input_int == rotor_mapping[input_index]) {
       *input_char = static_cast<char>(input_index + 65);
       return;
     }
@@ -100,6 +94,7 @@ void EnigmaMachine::convert(char* input_char) {
 
   // Rotor convert
   for(int current_rotor = (number_of_rotors-1); 0 <= current_rotor; current_rotor--) {
+    (this->rotors[current_rotor])->remap();
     // (this->rotors[current_rotor])->convert_backward(input_char);
     (this->rotors[current_rotor])->convert_forward(input_char);
     //std::cout << "arot: " << *in;
