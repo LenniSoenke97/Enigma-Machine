@@ -1,13 +1,10 @@
 #ifndef ENIGMA
 #define ENIGMA
-#include<fstream>
 #include<iostream>
+#include<fstream>
 #include"errors.h"
 
-//std::string FindFileName(const std::string& str)
-//{
-  
-//}
+using namespace std;
 
 /*
  * Plugboard Class
@@ -15,7 +12,7 @@
 class Plugboard {
   int config_file_integers[26];
   int config_int_count = 0;
-  std::ifstream config_file;
+  ifstream config_file;
 public:
   /*
    * Name: Plugboard constructor
@@ -23,12 +20,12 @@ public:
    * Input: file path to plugboard config file
    * Output: initialised plugboard
    */
-  int config(std::string config_file_path) {
+  int config(string config_file_path) {
      size_t found = config_file_path.find_last_of("/\\");
-    std::string config_file_name = config_file_path.substr(found+1);
+    string config_file_name = config_file_path.substr(found+1);
     config_file.open(config_file_path);
     if (!config_file) {
-      std::cerr << "ERROR_OPENING_CONFIGURATION_FILE" << std::endl;
+      cerr << "ERROR_OPENING_CONFIGURATION_FILE" << endl;
       return ERROR_OPENING_CONFIGURATION_FILE;
     }
     int current_int;
@@ -36,16 +33,16 @@ public:
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
 	if (config_file.eof()) break;
-	std::cerr << "Non-numeric character in plugboard file " << config_file_name << std::endl;
+	cerr << "Non-numeric character in plugboard file " << config_file_name << endl;
 	return NON_NUMERIC_CHARACTER;
       }
       if (current_int < 0 || 25 < current_int) {
-	std::cerr << "Invalid Index used in plugboard file " << config_file_name << std::endl;
+	cerr << "Invalid Index used in plugboard file " << config_file_name << endl;
 	return INVALID_INDEX;
       }
       for(int i; i < config_int_count; i++) {
 	if (current_int == config_file_integers[i]) {
-	  std::cerr << "Impossible plugboard configuration found in plugboard file" << config_file_name << std::endl;
+	  cerr << "Impossible plugboard configuration found in plugboard file" << config_file_name << endl;
 	  return IMPOSSIBLE_PLUGBOARD_CONFIGURATION;
 	}
       }
@@ -53,7 +50,7 @@ public:
       config_int_count++;
     }
     if((config_int_count%2) || (config_int_count > 26)) {
-      std::cerr << "Incorrect number of parameters in plugboard file " << config_file_name << std::endl;
+      cerr << "Incorrect number of parameters in plugboard file " << config_file_name << endl;
       return INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS;
     }
 
@@ -77,8 +74,8 @@ class Rotor {
   int rotor_mapping[26];
   int config_int_count = 0;
   int current_pos = 0;
-  std::ifstream config_file;
-  std::ifstream starting_config;
+  ifstream config_file;
+  ifstream starting_config;
   
 public:
   /*
@@ -87,20 +84,20 @@ public:
    * Input: file path to rotor config file
    * Output: initialised rotor
    */
-  int config(std::string config_file_path, std::string starting_pos_config_file_path, int rotor_pos) {
+  int config(string config_file_path, string starting_pos_config_file_path, int rotor_pos) {
      size_t found = config_file_path.find_last_of("/\\");
-    std::string config_file_name = config_file_path.substr(found+1);
+    string config_file_name = config_file_path.substr(found+1);
      found = starting_pos_config_file_path.find_last_of("/\\");
-    std::string starting_pos_config_file_name = starting_pos_config_file_path.substr(found+1);
+    string starting_pos_config_file_name = starting_pos_config_file_path.substr(found+1);
     
     config_file.open(config_file_path);
     starting_config.open(starting_pos_config_file_path);
     if (!config_file || !starting_config) {
-      std::cerr <<  "Error occured whilst opening rotor file: " << config_file_name << std::endl;
+      cerr <<  "Error occured whilst opening rotor file: " << config_file_name << endl;
       return ERROR_OPENING_CONFIGURATION_FILE;
     }
     if (!starting_config) {
-      std::cerr << "Error occured whilst opening rotor position file: " << starting_pos_config_file_name << std::endl;
+      cerr << "Error occured whilst opening rotor position file: " << starting_pos_config_file_name << endl;
       return ERROR_OPENING_CONFIGURATION_FILE;
     }
     
@@ -109,12 +106,12 @@ public:
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
 	if (config_file.eof()) break;
-        std::cerr << "Non-numeric character for mapping in rotor file " << config_file_name << std::endl;
+        cerr << "Non-numeric character for mapping in rotor file " << config_file_name << endl;
         return NON_NUMERIC_CHARACTER;
       }
 
      if (current_int < 0 || 25 < current_int) {
-        std::cerr << "Invalid Index used in rotor file " << config_file_name << std::endl;
+        cerr << "Invalid Index used in rotor file " << config_file_name << endl;
         return INVALID_INDEX;
       }
       
@@ -126,7 +123,7 @@ public:
 
       for(int i=0; i < config_int_count; i++) {
         if (current_int == rotor_mapping[i]) {
-          std::cerr << "Invalid mapping of input " << config_int_count << " to output " << current_int << " (output " << current_int << " is already mapped to from input " << i << ") in rotor file " << config_file_name << std::endl;
+          cerr << "Invalid mapping of input " << config_int_count << " to output " << current_int << " (output " << current_int << " is already mapped to from input " << i << ") in rotor file " << config_file_name << endl;
           return INVALID_ROTOR_MAPPING;
         }
 	}
@@ -137,7 +134,7 @@ public:
     }
 
     if (config_int_count < 26) {
-      std::cerr << "Not all inputs mapped in rotor file: " << config_file_name << std::endl;
+      cerr << "Not all inputs mapped in rotor file: " << config_file_name << endl;
       return INVALID_ROTOR_MAPPING;
     }
 
@@ -145,10 +142,10 @@ public:
     for (int i=0; i<=rotor_pos; i++) {
       if(!(starting_config >> starting_pos)) {
 	if (starting_config.eof()) {
-	  std::cerr << "No starting position for rotor " << rotor_pos << " in rotor position file: " << starting_pos_config_file_name << std::endl;
+	  cerr << "No starting position for rotor " << rotor_pos << " in rotor position file: " << starting_pos_config_file_name << endl;
 	  return NO_ROTOR_STARTING_POSITION;
 	}
-	std::cerr << "Non-numeric character in rotor positions file " << starting_pos_config_file_name << std::endl;
+	cerr << "Non-numeric character in rotor positions file " << starting_pos_config_file_name << endl;
         return NON_NUMERIC_CHARACTER;
        
       }
@@ -162,7 +159,7 @@ public:
     int next_pos;
     if(!(starting_config >> next_pos)) {
       if (starting_config.eof()) return 0;
-      std::cerr << "Non-numeric character in rotor positions file " << starting_pos_config_file_name << std::endl;
+      cerr << "Non-numeric character in rotor positions file " << starting_pos_config_file_name << endl;
         return NON_NUMERIC_CHARACTER;
     }
 
@@ -174,6 +171,7 @@ public:
   void convert_backward(char* input_char);
 
   void rotate(int by_positions=1);
+
   bool at_rotation_notch() {
     for(int current_notch=0; current_notch < rotator_notch_number; current_notch++) {
       if ((current_pos+1) == rotate_notches[current_notch]) return true;
@@ -181,18 +179,12 @@ public:
     return false;
   };
 
-  void display_rotor() { ///// DELETE THIS
-    for(int index=0; index < 26; index++) {
-      std::cout << " " << config_file_offsets[index];
-    }
-    // std::cout << " current pos: " << current_pos << " - notches: " << rotator_notch_number << "! ";
-  }
 };
 
 class Reflector {
   int config_file_integers[26];
   int config_int_count = 0;
-  std::ifstream config_file;
+  ifstream config_file;
   
 public:
   /*
@@ -201,12 +193,12 @@ public:
    * Input: file path to reflector config file
    * Output: initialised reflector
    */
-  int config(std::string config_file_path) {
+  int config(string config_file_path) {
     size_t found = config_file_path.find_last_of("/\\");
-    std::string config_file_name = config_file_path.substr(found+1);
+    string config_file_name = config_file_path.substr(found+1);
     config_file.open(config_file_path);
     if (!config_file) {
-      std::cerr <<  "Error occured whilst opening rotor file: " << config_file_name << std::endl;
+      cerr <<  "Error occured whilst opening rotor file: " << config_file_name << endl;
       return ERROR_OPENING_CONFIGURATION_FILE;
     }
     int current_int;
@@ -214,17 +206,17 @@ public:
     while(config_file.good()) {
       if (!(config_file >> current_int)) {
         if (config_file.eof()) break;
-        std::cerr << "Non-numeric character in reflector file " << config_file_name << std::endl;
+        cerr << "Non-numeric character in reflector file " << config_file_name << endl;
         return NON_NUMERIC_CHARACTER;
       }
 
       if (current_int < 0 || 25 < current_int) {
-        std::cerr << "Invalid Index used in reflector file " << config_file_name << std::endl;
+        cerr << "Invalid Index used in reflector file " << config_file_name << endl;
         return INVALID_INDEX;
       }
       for(int i; i < config_int_count; i++) {
         if (current_int == config_file_integers[i]) {
-          std::cerr << "Invalid reflector mapping in reflector file " << config_file_name << std::endl;
+          cerr << "Invalid reflector mapping in reflector file " << config_file_name << endl;
           return INVALID_REFLECTOR_MAPPING;
         }
       }
@@ -234,12 +226,12 @@ public:
     }
 
     if(config_int_count % 2) {
-      std::cerr << "Incorrect (odd) number of parameters in reflector file " << config_file_name << std::endl;
+      cerr << "Incorrect (odd) number of parameters in reflector file " << config_file_name << endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
     
     if(config_int_count != 26) {
-      std::cerr << "Insufficient number of mappings in reflector file: " << config_file_name << std::endl;
+      cerr << "Insufficient number of mappings in reflector file: " << config_file_name << endl;
       return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
     }
 
@@ -255,6 +247,7 @@ class EnigmaMachine {
   Reflector* reflector;
   Rotor* rotors[100];
   int number_of_rotors = 0;
+  void rotateRotors();
 
 public:
   void setPlugboard(Plugboard* plugboard) { this->plugboard = plugboard; };

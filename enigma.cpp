@@ -3,6 +3,9 @@
 #include<fstream>
 #include<iostream>
 
+/*
+Plugboard
+*/
 void Plugboard::convert(char* input_char) {
   int input_int = static_cast<int>(*input_char) - 65;
   for(int current_int_index=0; current_int_index < config_int_count; current_int_index++) {  
@@ -15,6 +18,9 @@ void Plugboard::convert(char* input_char) {
   }
 }
 
+/*
+Rotor
+*/
 void Rotor::remap() {
   int  mapped_input;
   for (int i=0; i < 26; i++) {
@@ -46,15 +52,7 @@ void Rotor::rotate(int by_positions) {
   current_pos += by_positions;
   if (current_pos > 25) current_pos = 26 - current_pos;
   int new_config_file_offsets[26], new_config_file_index;
-  /*for(int old_config_file_index=0;old_config_file_index<26;old_config_file_index++) {
-    new_config_file_index = old_config_file_index+by_positions;
-    if (new_config_file_index > 25) {
-      new_config_file_index -= 26;
-    }
-    new_config_file_offsets[new_config_file_index] = config_file_offsets[old_config_file_index];
-    }*/
-  
-  
+   
   for(int old_config_file_index=0;old_config_file_index<26;old_config_file_index++) {
     new_config_file_index = old_config_file_index-by_positions;
     if (new_config_file_index < 0) {
@@ -66,8 +64,12 @@ void Rotor::rotate(int by_positions) {
   for (int index=0; index < 26; index++) {
     config_file_offsets[index] = new_config_file_offsets[index];
     }
-};  
+};
 
+
+/*
+Reflector
+*/
 void Reflector::convert(char* input_char) {
   int input_int = static_cast<int>(*input_char) - 65;
   for(int current_int_index=0; current_int_index < config_int_count; current_int_index++) {
@@ -80,38 +82,37 @@ void Reflector::convert(char* input_char) {
   }
 }
 
-void EnigmaMachine::convert(char* input_char) {
-  int rotors_to_rotate = 1;
+/*
+EnigmaMachine
+*/
+void EnigmaMachine::rotateRotors() {
+   int rotors_to_rotate = 1;
   for(; rotors_to_rotate <= number_of_rotors; rotors_to_rotate++) {
     if(!((this->rotors[number_of_rotors-rotors_to_rotate])->at_rotation_notch())) break;
   }
   for(int current_rotor = 0; current_rotor < rotors_to_rotate && current_rotor < number_of_rotors; current_rotor++) {
     (this->rotors[number_of_rotors-current_rotor-1])->rotate();
+    (this->rotors[current_rotor])->remap();
     }
-
+}
+void EnigmaMachine::convert(char* input_char) {
+  this->rotateRotors();
   // Plugboard convert  
   plugboard->convert(input_char);
 
   // Rotor convert
   for(int current_rotor = (number_of_rotors-1); 0 <= current_rotor; current_rotor--) {
-    (this->rotors[current_rotor])->remap();
-    // (this->rotors[current_rotor])->convert_backward(input_char);
+    
     (this->rotors[current_rotor])->convert_forward(input_char);
-    //std::cout << "arot: " << *in;
-    // std::cout << " rotor " << current_rotor << ":";
-    // (this->rotors[current_rotor])->display_rotor();
   }
   
   // Reflector convert
   reflector->convert(input_char);
-  // std::cout << "aref: " << *input_char << std::endl;
 				     
 				      
   // Rotor convert
   for(int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
-    // (this->rotors[current_rotor])->convert_forward(input_char);
     (this->rotors[current_rotor])->convert_backward(input_char);
-    //std::cout << "arot: " << *input_char << std::endl;
   }
  
   // Plugboard convert
