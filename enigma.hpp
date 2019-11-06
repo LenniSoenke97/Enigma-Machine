@@ -181,7 +181,7 @@ public:
   void rotate(int by_positions=1);
   bool at_rotation_notch() {
     for(int current_notch=0; current_notch < rotator_notch_number; current_notch++) {
-      if (current_pos == rotate_notches[current_notch]) return true;
+      if ((current_pos+1) == rotate_notches[current_notch]) return true;
     }
     return false;
   };
