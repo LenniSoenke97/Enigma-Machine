@@ -1,24 +1,23 @@
 #include"processor.hpp"
 #include"rotor.hpp"
 #include<string>
-
+#include"errors.h"
+#include<iostream>
 using namespace std;
 
 int Rotor::config(string config_file_path, string starting_pos_config_file_path, int rotor_pos) {
   int error_code = 0;
   int config_file_integer;
-  Processor* rotor_processor = new Processor(Processor::file_type::reflector);
+  Processor* rotor_processor = new Processor(Processor::file_type::rotor);
     
   error_code = rotor_processor->open(config_file_path);
   if (error_code) return error_code;
 
- 
   while(rotor_processor->good()) {
-    
     error_code = rotor_processor->get_next_int(&config_file_integer);
     if (error_code) return error_code;
 
-    if (rotor_processor->at_eof()) return 0;
+    if (rotor_processor->at_eof()) break;
 
     if (config_int_count >= 26) {	
       rotate_notches[rotator_notch_number] = config_file_integer;
@@ -34,12 +33,13 @@ int Rotor::config(string config_file_path, string starting_pos_config_file_path,
     config_int_count++;
   }
   
-  
   error_code = rotor_processor->correct_number_of_parameters(config_int_count);
   if (error_code) return error_code;
 
+  // STARTING POSITION
   Processor* starting_position_processor = new Processor(Processor::file_type::rotor_position);
-  int starting_pos;
+  int starting_pos, starting_position_index = 0;
+  
   error_code = starting_position_processor->open(starting_pos_config_file_path);
   if (error_code) return error_code;
 
@@ -51,14 +51,20 @@ int Rotor::config(string config_file_path, string starting_pos_config_file_path,
       starting_position_processor->print_error("No starting position for rotor " + to_string(rotor_pos));
       return NO_ROTOR_STARTING_POSITION;
     }
+
+    if (starting_position_index == rotor_pos) break;
+    
+    starting_position_index++;
   }
   if (starting_pos > 0) this->rotate(starting_pos);
-
 
   error_code = starting_position_processor->get_next_int(&config_file_integer);
   if (error_code) return error_code;
   
 
+  delete starting_position_processor;
+  delete rotor_processor;
+  
   return error_code;
 }
 

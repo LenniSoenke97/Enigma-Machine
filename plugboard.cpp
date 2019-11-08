@@ -1,10 +1,11 @@
 #include"plugboard.hpp"
 #include"processor.hpp"
+#include<iostream> // delete
 
 int Plugboard::config(string config_file_path) {
   int error_code = 0;
   int config_file_integer;
-  Processor* plugboard_processor = new Processor(Processor::file_type::reflector);
+  Processor* plugboard_processor = new Processor(Processor::file_type::plugboard);
 
   error_code = plugboard_processor->open(config_file_path);
   if (error_code) return error_code;
@@ -13,7 +14,7 @@ int Plugboard::config(string config_file_path) {
     error_code = plugboard_processor->get_next_int(&config_file_integer);
     if (error_code) return error_code;
 
-    if (plugboard_processor->at_eof()) return 0;
+    if (plugboard_processor->at_eof()) break;
 
     error_code = plugboard_processor->exists_within(config_file_integer, config_file_integers, config_int_count);
     if (error_code) return error_code;
@@ -22,9 +23,10 @@ int Plugboard::config(string config_file_path) {
     config_int_count++;
   }
 
-   error_code = plugboard_processor->correct_number_of_parameters(config_file_integer);
+   error_code = plugboard_processor->correct_number_of_parameters(config_int_count);
    if (error_code) return error_code;
 
+   delete plugboard_processor;
 
   return error_code;
 

@@ -1,6 +1,5 @@
 #ifndef ROTOR
 #define ROTOR
-
 #include<string>
 
 using namespace std;

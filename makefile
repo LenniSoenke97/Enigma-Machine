@@ -1,5 +1,5 @@
 enigma: main.o enigma.o plugboard.o rotor.o reflector.o processor.o 
-	g++ main.o enigma.o plugboard.o rotor.o reflector.o -o enigma
+	g++ main.o enigma.o plugboard.o rotor.o reflector.o processor.o -o enigma
 
 main.o: main.cpp errors.h enigma.hpp
 	g++ -Wall -Wextra -g -c main.cpp
@@ -16,5 +16,5 @@ rotor.o: rotor.cpp rotor.hpp processor.hpp
 reflector.o: reflector.cpp reflector.hpp processor.hpp
 	g++ -Wall -Wextra -g -c reflector.cpp
 
-processor.o: errors.h processor.hpp
-	g++ -Wall -Wextra -g -c processor.hpp
+processor.o: errors.h processor.hpp processor.cpp
+	g++ -Wall -Wextra -g -c processor.cpp

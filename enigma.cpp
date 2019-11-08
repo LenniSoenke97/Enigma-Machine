@@ -9,6 +9,27 @@
 /*
   EnigmaMachine
 */
+int EnigmaMachine::setPlugboard(string plugboard_config) {
+     int error_code;
+    plugboard = new Plugboard();
+    error_code = plugboard->config(plugboard_config);
+    return error_code;
+  };
+  int EnigmaMachine::setReflector(string reflector_config) {
+     int error_code;
+    reflector = new Reflector();
+    error_code = reflector->config(reflector_config);
+    return error_code;
+  };
+  int EnigmaMachine::setRotor(string rotor_config, string starting_pos_config, int rotor_pos) {
+    int error_code;
+    Rotor* rotor = new Rotor();
+    error_code = rotor->config(rotor_config, starting_pos_config, rotor_pos);
+    this->rotors[number_of_rotors] = rotor;
+    number_of_rotors++;
+    return error_code;
+  };
+
 void EnigmaMachine::rotateRotors() {
   int rotors_to_rotate = 1;
   for(; rotors_to_rotate <= number_of_rotors; rotors_to_rotate++) {
@@ -18,9 +39,6 @@ void EnigmaMachine::rotateRotors() {
     (this->rotors[number_of_rotors-current_rotor-1])->rotate();
 
   }
-  /*for(int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
-    (this->rotors[current_rotor])->remap();
-  }*/
 }
 
 void EnigmaMachine::convert(char* input_char) {

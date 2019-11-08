@@ -19,27 +19,18 @@ class EnigmaMachine {
   void rotateRotors();
 
 public:
-  int setPlugboard(string plugboard_config) {
-     int error_code;
-    plugboard = new Plugboard();
-    error_code = plugboard->config(plugboard_config);
-    return error_code;
-  };
-  int setReflector(string reflector_config) {
-     int error_code;
-    reflector = new Reflector();
-    error_code = reflector->config(reflector_config);
-    return error_code;
-  };
-  int setRotor(string rotor_config, string starting_pos_config, int rotor_pos) {
-    int error_code;
-    Rotor* rotor = new Rotor();
-    error_code = rotor->config(rotor_config, starting_pos_config, rotor_pos);
-    this->rotors[number_of_rotors] = rotor;
-    number_of_rotors++;
-    return error_code;
-  };
+  int setPlugboard(string plugboard_config);
+  int setReflector(string reflector_config);
+  int setRotor(string rotor_config, string starting_pos_config, int rotor_pos);
   void convert(char* input_char);
+
+  ~EnigmaMachine() {
+    delete plugboard;
+    delete reflector;
+    for (int rotor_index=0;rotor_index<number_of_rotors;rotor_index++) {
+      delete rotors[rotor_index];
+    }
+  }
 };
 
 #endif

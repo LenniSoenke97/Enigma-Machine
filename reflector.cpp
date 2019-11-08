@@ -13,7 +13,7 @@ int Reflector::config(string config_file_path) {
     error_code = reflector_processor->get_next_int(&config_file_integer);
     if (error_code) return error_code;
 
-    if (reflector_processor->at_eof()) return 0;
+    if (reflector_processor->at_eof()) break;
 
     error_code = reflector_processor->exists_within(config_file_integer, config_file_integers, config_int_count);
     if (error_code) return error_code;
@@ -22,17 +22,10 @@ int Reflector::config(string config_file_path) {
     config_int_count++;
   }
 
+   error_code = reflector_processor->correct_number_of_parameters(config_int_count);
+   if (error_code) return error_code;
 
-  if(config_int_count % 2) {
-    reflector_processor->print_error("Incorrect (odd) number of parameters");
-    return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
-  }
-    
-  if(config_int_count != 26) {
-    reflector_processor->print_error("Insufficient number of mappings");
-    return INCORRECT_NUMBER_OF_REFLECTOR_PARAMETERS;
-  }
-
+   delete reflector_processor;
   return error_code;
   
 };
