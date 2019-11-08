@@ -1,0 +1,10 @@
+- make destructors and de-allocate memory
+- refactor all code into seperate files
+  - classes in seperate files
+  - clean up error handling and file checking
+- comment all code
+- delete all unnecessary code
+- look through lab workshop 3 (how to write nice code)
+- make sure files pass all tests
+- delete all object and compiled files
+END
