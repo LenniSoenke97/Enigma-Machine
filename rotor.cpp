@@ -1,105 +1,73 @@
+#include"processor.hpp"
 #include"rotor.hpp"
+#include<string>
 
-/*
-  Rotor
-*/
+using namespace std;
+
 int Rotor::config(string config_file_path, string starting_pos_config_file_path, int rotor_pos) {
-    size_t found = config_file_path.find_last_of("/\\");
-    string config_file_name = config_file_path.substr(found+1);
-    found = starting_pos_config_file_path.find_last_of("/\\");
-    string starting_pos_config_file_name = starting_pos_config_file_path.substr(found+1);    
-    config_file.open(config_file_path);
-    starting_config.open(starting_pos_config_file_path);
-
-    // Check config file opens
-    if (!config_file) {
-      cerr <<  "Error occured whilst opening rotor file: " << config_file_name << endl;
-      return ERROR_OPENING_CONFIGURATION_FILE;
-    }
-    // Check starting position file opens
-    if (!starting_config) {
-      cerr << "Error occured whilst opening rotor position file: " << starting_pos_config_file_name << endl;
-      return ERROR_OPENING_CONFIGURATION_FILE;
-    }
+  int error_code = 0;
+  int config_file_integer;
+  Processor* rotor_processor = new Processor(Processor::file_type::reflector);
     
-    int current_int;
+  error_code = rotor_processor->open(config_file_path);
+  if (error_code) return error_code;
 
-    while(config_file.good()) {
-       // check if we can fetch next int
-      if (!(config_file >> current_int)) {
-	if (config_file.eof()) break;
-        cerr << "Non-numeric character for mapping in rotor file " << config_file_name << endl;
-        return NON_NUMERIC_CHARACTER;
-      }
-      // check int is within range
-      if (current_int < 0 || 25 < current_int) {
-        cerr << "Invalid Index used in rotor file " << config_file_name << endl;
-        return INVALID_INDEX;
-      }
-      // check if next int is a notch or a rotor position
-      if (config_int_count >= 26) {	
-        rotate_notches[rotator_notch_number] = current_int;
-	rotator_notch_number++;
-	continue;
-      }
-      // check that rotor position has not already been mapped to
-      for(int i=0; i < config_int_count; i++) {
-        if (current_int == rotor_mapping[i]) {
-          cerr << "Invalid mapping of input " << config_int_count << " to output " << current_int << " (output " << current_int << " is already mapped to from input " << i << ") in rotor file " << config_file_name << endl;
-          return INVALID_ROTOR_MAPPING;
-        }
-      }
+ 
+  while(rotor_processor->good()) {
+    
+    error_code = rotor_processor->get_next_int(&config_file_integer);
+    if (error_code) return error_code;
 
-      rotor_mapping[config_int_count] = current_int;
-      config_file_offsets[config_int_count] = current_int - config_int_count;
-      config_int_count++;
+    if (rotor_processor->at_eof()) return 0;
+
+    if (config_int_count >= 26) {	
+      rotate_notches[rotator_notch_number] = config_file_integer;
+      rotator_notch_number++;
+      continue;
     }
-
-    // check every rotor position has been mapped to
-    if (config_int_count < 26) {
-      cerr << "Not all inputs mapped in rotor file: " << config_file_name << endl;
-      return INVALID_ROTOR_MAPPING;
-    }
-
-    int starting_pos;
-    for (int i=0; i<=rotor_pos; i++) {
-      // check if we can fetch next in
-      if(!(starting_config >> starting_pos)) {
-	// check whether we have reached the end of the file
-	if (starting_config.eof()) {
-	  cerr << "No starting position for rotor " << rotor_pos << " in rotor position file: " << starting_pos_config_file_name << endl;
-	  return NO_ROTOR_STARTING_POSITION;
-	}
-	cerr << "Non-numeric character in rotor positions file " << starting_pos_config_file_name << endl;
-        return NON_NUMERIC_CHARACTER;
-       
-      }
-    }
-
-    // check if we should rotate
-    if (starting_pos > 0) {
-      this->rotate(starting_pos);
-    }
-
-
-    int next_pos;
-    // check if there is an invalid character at the end of the starting position file
-    if(!(starting_config >> next_pos)) {
-      if (starting_config.eof()) return 0;
-      cerr << "Non-numeric character in rotor positions file " << starting_pos_config_file_name << endl;
-      return NON_NUMERIC_CHARACTER;
-    }
-
-    config_file.close(); 
-    return 0;
+     
+    error_code = rotor_processor->exists_within(config_file_integer, rotor_mapping, config_int_count);
+    if (error_code) return error_code;
+     
+    rotor_mapping[config_int_count] = config_file_integer;
+    config_file_offsets[config_int_count] = config_file_integer - config_int_count;
+    config_int_count++;
   }
+  
+  
+  error_code = rotor_processor->correct_number_of_parameters(config_int_count);
+  if (error_code) return error_code;
+
+  Processor* starting_position_processor = new Processor(Processor::file_type::rotor_position);
+  int starting_pos;
+  error_code = starting_position_processor->open(starting_pos_config_file_path);
+  if (error_code) return error_code;
+
+  while(starting_position_processor->good()) {
+    error_code = starting_position_processor->get_next_int(&starting_pos);
+    if (error_code) return error_code;
+
+    if (starting_position_processor->at_eof()) {
+      starting_position_processor->print_error("No starting position for rotor " + to_string(rotor_pos));
+      return NO_ROTOR_STARTING_POSITION;
+    }
+  }
+  if (starting_pos > 0) this->rotate(starting_pos);
+
+
+  error_code = starting_position_processor->get_next_int(&config_file_integer);
+  if (error_code) return error_code;
+  
+
+  return error_code;
+}
 
 bool Rotor::at_rotation_notch() {
-    for(int current_notch=0; current_notch < rotator_notch_number; current_notch++) {
-      if ((current_pos+1) == rotate_notches[current_notch]) return true;
-    }
-    return false;
-  };
+  for(int current_notch=0; current_notch < rotator_notch_number; current_notch++) {
+    if ((current_pos+1) == rotate_notches[current_notch]) return true;
+  }
+  return false;
+}
 
 void Rotor::remap() {
   int  mapped_input;
@@ -111,18 +79,15 @@ void Rotor::remap() {
   }
 }
 
-void Rotor::convert_forward(char* input_char) {
-  int input_int = static_cast<int>(*input_char) - 65;
-  int output_int = rotor_mapping[input_int];
-  *input_char = static_cast<char>(output_int + 65);
+void Rotor::convert_forward(int* input_int) {
+  *input_int = rotor_mapping[*input_int];
 }
 
-void Rotor::convert_backward(char* input_char) { 
-  int input_int = static_cast<int>(*input_char) - 65;
+void Rotor::convert_backward(int* input_int) { 
   int input_index=0;
   for(;;input_index++) {
-    if(input_int == rotor_mapping[input_index]) {
-      *input_char = static_cast<char>(input_index + 65);
+    if(*input_int == rotor_mapping[input_index]) {
+      *input_int = input_index;
       return;
     }
   }
@@ -145,4 +110,4 @@ void Rotor::rotate(int by_positions) {
     config_file_offsets[index] = new_config_file_offsets[index];
   }
   this->remap();
-};
+}

@@ -1,15 +1,12 @@
 #ifndef REFLECTOR
 #define REFLECTOR
-#include<iostream>
-#include<fstream>
-#include"errors.h"
+#include<string>
 
 using namespace std;
 
 class Reflector {
   int config_file_integers[26];
   int config_int_count = 0;
-  ifstream config_file;
   
 public:
   /*
@@ -20,11 +17,7 @@ public:
    */
   int config(string config_file_path);
   
-  void convert(char* input_char);
+  void convert(int* input_int);
 
-  ~Reflector() {
-    delete [] config_file_integers;
-    delete this;
-  }
 };
 #endif

@@ -30,12 +30,9 @@ public:
    * Input: a pointer to an input char                                   
    * Output: void                                                                                 
    */
-  void convert(char* input_char);
+  void convert(int* input_int);
 
-  ~Plugboard() {
-    delete [] config_file_integers;
-    delete this;
-  };
+  
 };
 
 #endif

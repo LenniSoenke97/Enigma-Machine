@@ -25,25 +25,29 @@ void EnigmaMachine::rotateRotors() {
 
 void EnigmaMachine::convert(char* input_char) {
   this->rotateRotors();
+
+  int input_int = static_cast<int>(*input_char) - 65;
      
   // Plugboard convert  
-  plugboard->convert(input_char);
+  plugboard->convert(&input_int);
 
   // Rotor convert
   for(int current_rotor = (number_of_rotors-1); 0 <= current_rotor; current_rotor--) {
-    (this->rotors[current_rotor])->convert_forward(input_char);
+    (this->rotors[current_rotor])->convert_forward(&input_int);
   }
   
   // Reflector convert
-  reflector->convert(input_char);
+  reflector->convert(&input_int);
 				     
 				      
   // Rotor convert
   for(int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
-    (this->rotors[current_rotor])->convert_backward(input_char);
+    (this->rotors[current_rotor])->convert_backward(&input_int);
   }
  
   // Plugboard convert
-  plugboard->convert(input_char);
+  plugboard->convert(&input_int);
+
+  *input_char =  static_cast<char>(input_int + 65);
 
 }

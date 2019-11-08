@@ -1,8 +1,7 @@
 #ifndef ROTOR
 #define ROTOR
-#include<iostream>
-#include<fstream>
-#include"errors.h"
+
+#include<string>
 
 using namespace std;
 
@@ -17,9 +16,7 @@ class Rotor {
   int rotor_mapping[26];
   int config_int_count = 0;
   int current_pos = 0;
-  ifstream config_file;
-  ifstream starting_config;
-  
+    
 public:
   /*
    * Name: Rotor constructor
@@ -35,8 +32,8 @@ public:
    *
    */
   void remap(); // make private
-  void convert_forward(char* input_char);
-  void convert_backward(char* input_char);
+  void convert_forward(int* input_int);
+  void convert_backward(int* input_int);
   void rotate(int by_positions=1);
   bool at_rotation_notch();
 
