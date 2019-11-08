@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
   if(number_of_rotors > 0) {
     string rotor_starting_pos = argv[argc-1];
     for (int current_rotor = 0; current_rotor < number_of_rotors; current_rotor++) {
-      enigma_machine->setRotor(argv[current_rotor+3], rotor_starting_pos, current_rotor);
+      error_code = enigma_machine->setRotor(argv[current_rotor+3], rotor_starting_pos, current_rotor);
       if (error_code) return error_code;
     }
   }

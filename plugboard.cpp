@@ -1,6 +1,5 @@
 #include"plugboard.hpp"
 #include"processor.hpp"
-#include<iostream> // delete
 
 int Plugboard::config(string config_file_path) {
   int error_code = 0;
@@ -15,7 +14,8 @@ int Plugboard::config(string config_file_path) {
     if (error_code) return error_code;
 
     if (plugboard_processor->at_eof()) break;
-
+    if (config_int_count == 26) { config_int_count++; break; }
+    
     error_code = plugboard_processor->exists_within(config_file_integer, config_file_integers, config_int_count);
     if (error_code) return error_code;
      

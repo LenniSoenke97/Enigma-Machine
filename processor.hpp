@@ -6,9 +6,16 @@
 using namespace std;
 
 class Processor {
+
+  /*
+   * Main Attributes
+   */
   string config_file_name;
   ifstream config_file;
-  
+
+  /*
+   * Main Constants (defining expected parameter number for each file)
+   */
   const int PLUGBOARD_MIN = 0;
   const int PLUGBOARD_MAX = 26;
   
@@ -19,9 +26,14 @@ class Processor {
   const int ROTOR_MAX = 26;
   
 public:
+
+  /*
+   * file type enum so the processor knows which kind of file it is validating
+   */
   enum file_type {plugboard, reflector, rotor, rotor_position};
   file_type type;
 
+  
   void print_error(string error_msg);
   
   Processor(file_type type) : type(type) {};

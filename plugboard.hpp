@@ -17,16 +17,16 @@ class Plugboard {
 
 public:
   /*
-   * Name: Plugboard constructor
-   * Description: Takes a file path and loads all the numbers from that file path into the config_file_integers array, furthermore it checks whether the file (and thus plugboard) is valid
+   * Description: Takes a file path and loads all the numbers from that file path into the config_file_integers
+   * array, furthermore it checks whether the file (and thus plugboard) is valid
    * Input: file path to plugboard config file
    * Output: initialised plugboard
    */
   int config(string config_file_path);
 
-  /*                                                                     
-   * Name: Plugboard convert                                                                                       
-   * Description: converts an input char into an output char. To do this it performs the normal plugboard action of "switching" letters that are connected by a plugboard wire.                                                  
+  /*           
+   * Description: converts an input char into an output char. To do this it performs the normal plugboard action 
+   * of "switching" letters that are connected by a plugboard wire.                                                  
    * Input: a pointer to an input char                                   
    * Output: void                                                                                 
    */
