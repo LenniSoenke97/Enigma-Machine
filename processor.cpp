@@ -24,7 +24,7 @@ void Processor::print_error(string error_msg) {
     break;
   }
 
-  cerr << error_msg << " in " << type_name << " file: " << config_file_name << endl;
+  cerr << error_msg << " in " << type_name << " file " << config_file_name << endl;
 }
 
 bool Processor::good() {
