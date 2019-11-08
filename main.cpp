@@ -1,4 +1,4 @@
-#include"errors.h"
+ #include"errors.h"
 #include"enigma.hpp"
 #include<iostream>
 #include<fstream>
