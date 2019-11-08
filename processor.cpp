@@ -135,17 +135,15 @@ int Processor::correct_number_of_parameters(int number_of_parameters) {
     break;
   }
 
-  cerr << "number of parameters: " << number_of_parameters;
-
-  if (number_of_parameters > max || number_of_parameters < min) {
-    print_error(error_string);
-    return error_code;
-  }
-
   if (number_of_parameters % 2) {
     print_error(odd_error_string);
     return error_code;
   };
+   
+  if (number_of_parameters > max || number_of_parameters < min) {
+    print_error(error_string);
+    return error_code;
+  }
 
   return 0;
 }

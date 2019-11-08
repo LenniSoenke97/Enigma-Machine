@@ -14,7 +14,8 @@ int Reflector::config(string config_file_path) {
     if (error_code) return error_code;
 
     if (reflector_processor->at_eof()) break;
-
+    if (config_int_count == 26) { config_int_count++; break; }
+     
     error_code = reflector_processor->exists_within(config_file_integer, config_file_integers, config_int_count);
     if (error_code) return error_code;
      

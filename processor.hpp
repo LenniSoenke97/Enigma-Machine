@@ -34,10 +34,16 @@ public:
   file_type type;
 
   
-  void print_error(string error_msg);
-  
+ 
+  /*
+   * Description: initiation the processor with the correct type
+   * Input: a variable named type which is of type Processor::file_type, so that the processor knows
+   * what file it is processing
+   * Output: a processor object
+   */
   Processor(file_type type) : type(type) {};
 
+   void print_error(string error_msg);
   int get_next_int(int* integer);
   bool good();
   bool at_eof();
@@ -46,36 +52,6 @@ public:
   int correct_number_of_parameters(int number_of_parameters);
 
   ~Processor() { config_file.close(); }
-  //int check() {
-  // --- PLUGBOARD
-  // *CAN BE OPENED
-  // *NON NUMERIC CHARACTER used in FILETYPE: FILE NAME
-  // *INVALID INDEX used in FILETYPE: FILE NAME
-  // *IMPOSSIBLE CONFIGURATION (SAME LETTER TWICE)
-  // INCORRECT_NUMBER_OF_PLUGBOARD_PARAMETERS
-
-  // --- ROTOR
-  // * CAN BE OPENED
-  // * NO NUMBERIC CHAR
-  // * INVALID INDEX
-  // CHECK IF NEXT POSITION IS NOTCH
-  // * INVALID_ROTOR_MAPPING
-  // EVERY ROTOR POSITION HAS BEEN MAPPED
-
-  // --- STARTING POS
-  // NO ROTOR STARTING POS
-  // NON NUMERIC CHARACTER
-  // NON NUMERIC CHAR 2
-
-  // NON NUMERIC CHARACTER
-  // INVALID INDEX
-  // INVALID ROTOR MAPPING
-  // ODD NUMBER OF PARAMETERS
-  // INSUFFICIENT NUMBER OF MAPPINGS
-  //};
-
-  
-
 
 };
 #endif
