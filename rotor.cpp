@@ -1,11 +1,13 @@
 #include"processor.hpp"
 #include"rotor.hpp"
-#include<string>
 #include"errors.h"
-#include<iostream>
+#include<string>
+
 using namespace std;
 
-int Rotor::config(string config_file_path, string starting_pos_config_file_path, int rotor_pos) {
+int Rotor::config(string config_file_path, 
+		string starting_pos_config_file_path, 
+		int rotor_pos) {
   int error_code = 0;
   int config_file_integer;
   Processor* rotor_processor = new Processor(Processor::file_type::rotor);
@@ -25,18 +27,22 @@ int Rotor::config(string config_file_path, string starting_pos_config_file_path,
       continue;
     }
      
-    error_code = rotor_processor->exists_within(config_file_integer, rotor_mapping, config_int_count);
+    error_code = rotor_processor->exists_within(config_file_integer, 
+		    rotor_mapping, 
+		    config_int_count);
     if (error_code) return error_code;
      
     rotor_mapping[config_int_count] = config_file_integer;
-    config_file_offsets[config_int_count] = config_file_integer - config_int_count;
+    config_file_offsets[config_int_count] = 
+	    config_file_integer - config_int_count;
     config_int_count++;
   }
   
   error_code = rotor_processor->correct_number_of_parameters(config_int_count);
   if (error_code) return error_code;
 
-  Processor* starting_position_processor = new Processor(Processor::file_type::rotor_position);
+  Processor* starting_position_processor = 
+	  new Processor(Processor::file_type::rotor_position);
   int starting_pos, starting_position_index = 0;
   
   error_code = starting_position_processor->open(starting_pos_config_file_path);
@@ -47,7 +53,8 @@ int Rotor::config(string config_file_path, string starting_pos_config_file_path,
     if (error_code) return error_code;
 
     if (starting_position_processor->at_eof()) {
-      starting_position_processor->print_error("No starting position for rotor " + to_string(rotor_pos));
+      starting_position_processor->print_error("No starting position for rotor "
+		      + to_string(rotor_pos));
       return NO_ROTOR_STARTING_POSITION;
     }
 
@@ -68,7 +75,9 @@ int Rotor::config(string config_file_path, string starting_pos_config_file_path,
 }
 
 bool Rotor::at_rotation_notch() {
-  for(int current_notch=0; current_notch < rotator_notch_number; current_notch++) {
+  for(int current_notch=0; 
+		  current_notch < rotator_notch_number; 
+		  current_notch++) {
     if ((current_pos+1) == rotate_notches[current_notch]) return true;
   }
   return false;
@@ -103,16 +112,19 @@ void Rotor::rotate(int by_positions) {
   if (current_pos > 25) current_pos = 26 - current_pos;
   int new_config_file_offsets[26], new_config_file_index;
    
-  for(int old_config_file_index=0;old_config_file_index<26;old_config_file_index++) {
+  for(int old_config_file_index=0;
+		  old_config_file_index<26;old_config_file_index++) {
     new_config_file_index = old_config_file_index-by_positions;
     if (new_config_file_index < 0) {
       new_config_file_index += 26;
     }
-    new_config_file_offsets[new_config_file_index] = config_file_offsets[old_config_file_index];
+    new_config_file_offsets[new_config_file_index] = 
+	    config_file_offsets[old_config_file_index];
   }
 
   for (int index=0; index < 26; index++) {
     config_file_offsets[index] = new_config_file_offsets[index];
   }
+  
   this->remap();
 }

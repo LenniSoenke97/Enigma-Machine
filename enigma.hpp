@@ -1,15 +1,12 @@
 #ifndef ENIGMA
 #define ENIGMA
-#include<iostream>
-#include<fstream>
+
 #include"errors.h"
 #include"plugboard.hpp"
 #include"rotor.hpp"
 #include"reflector.hpp"
 
 using namespace std;
-
-
 
 class EnigmaMachine {
 
@@ -20,6 +17,13 @@ class EnigmaMachine {
   Reflector* reflector;
   Rotor* rotors[100];
   int number_of_rotors = 0;
+
+  /*
+   * Description: this function rotates the appropriate number of rotors
+   * the appropriate number of times
+   * Input: none
+   * Output: void
+   */
   void rotateRotors();
 
 public:
@@ -45,16 +49,16 @@ public:
   int setRotor(string rotor_config, string starting_pos_config, int rotor_pos);
 
    /*
-   * Description: converts an input char to an encryped output char by passing it through
-   * its plugboard, rotors and reflector
+   * Description: converts an input char to an encryped output char by passing 
+   * it through its plugboard, rotors and reflector
    * Input: pointer to a char you want to convert
    * Output: void (input char gets changed since it is passed by reference)
    */
   void convert(char* input_char);
 
    /*
-   * Description: Enigma Machine Destructor, deletes all enigma machine parts (the plugboard,
-   * the reflector and all the rotors)
+   * Description: Enigma Machine Destructor, deletes all enigma machine parts 
+   * (the plugboard, the reflector and all the rotors)
    * Input: none
    * Output: none
    */

@@ -4,7 +4,8 @@
 int Plugboard::config(string config_file_path) {
   int error_code = 0;
   int config_file_integer;
-  Processor* plugboard_processor = new Processor(Processor::file_type::plugboard);
+  Processor* plugboard_processor =
+    new Processor(Processor::file_type::plugboard);
 
   error_code = plugboard_processor->open(config_file_path);
   if (error_code) return error_code;
@@ -16,14 +17,17 @@ int Plugboard::config(string config_file_path) {
     if (plugboard_processor->at_eof()) break;
     if (config_int_count == 26) { config_int_count++; break; }
     
-    error_code = plugboard_processor->exists_within(config_file_integer, config_file_integers, config_int_count);
+    error_code = plugboard_processor->exists_within(config_file_integer,
+						    config_file_integers,
+						    config_int_count);
     if (error_code) return error_code;
      
     config_file_integers[config_int_count] = config_file_integer;
     config_int_count++;
   }
 
-   error_code = plugboard_processor->correct_number_of_parameters(config_int_count);
+   error_code = plugboard_processor
+     ->correct_number_of_parameters(config_int_count);
    if (error_code) return error_code;
 
   delete plugboard_processor;
@@ -33,11 +37,14 @@ int Plugboard::config(string config_file_path) {
 };
 
 void Plugboard::convert(int* input_int) {
-  for(int current_int_index=0; current_int_index < config_int_count; current_int_index++) {  
+  for(int current_int_index=0;
+      current_int_index < config_int_count;
+      current_int_index++) {  
 
     if (config_file_integers[current_int_index] == *input_int) {
 
-      *input_int = (current_int_index % 2) ? config_file_integers[current_int_index-1] : \
+      *input_int = (current_int_index % 2) ?
+	config_file_integers[current_int_index-1] :
 	config_file_integers[current_int_index+1];
       return;
 

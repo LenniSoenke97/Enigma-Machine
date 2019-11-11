@@ -24,7 +24,8 @@ void Processor::print_error(string error_msg) {
     break;
   }
 
-  cerr << error_msg << " in " << type_name << " file " << config_file_name << endl;
+  cerr << error_msg << " in " << type_name << " file " 
+       << config_file_name << endl;
 }
 
 bool Processor::good() {
@@ -62,7 +63,7 @@ int Processor::get_next_int(int* integer) {
     
   if (*integer < 0 || 25 < *integer) {
 
-    print_error("Invalid index");
+    print_error(to_string(*integer) + " is an invalid index that has been provided");
     return INVALID_INDEX;
 
   }
@@ -70,8 +71,13 @@ int Processor::get_next_int(int* integer) {
   return 0;
 }
 
-int Processor::exists_within(int integer, int* integer_array, int integer_array_length) {
-  for(int current_index=0; current_index < integer_array_length; current_index++) {
+int Processor::exists_within(int integer, 
+			     int* integer_array, 
+			     int integer_array_length) {
+  
+  for(int current_index=0; 
+      current_index < integer_array_length; 
+      current_index++) {
 
     if (integer == integer_array[current_index]) {
       int error_code;
@@ -86,9 +92,12 @@ int Processor::exists_within(int integer, int* integer_array, int integer_array_
 	error_code = INVALID_REFLECTOR_MAPPING;
 	break;
       case rotor:
-	error_string =  "Invalid mapping of input " + to_string(integer_array_length) + \
-	  " to output " + to_string(integer) + " (output " + to_string(integer) + \
-	  " is already mapped to from input " + to_string(current_index) + ")";
+	error_string =  "Invalid mapping of input " + 
+	  to_string(integer_array_length) + \
+	  " to output " + to_string(integer) + 
+	  " (output " + to_string(integer) + \
+	  " is already mapped to from input " 
+	  + to_string(current_index) + ")";
 	error_code = INVALID_ROTOR_MAPPING;
 	break;
       default:
@@ -105,7 +114,7 @@ int Processor::exists_within(int integer, int* integer_array, int integer_array_
 }
 
 int Processor::correct_number_of_parameters(int number_of_parameters) {
-   int min, max, error_code = 0;
+  int min, max, error_code = 0;
   string error_string, odd_error_string;
   switch(type) {
   case plugboard:
