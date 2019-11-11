@@ -36,7 +36,6 @@ int Rotor::config(string config_file_path, string starting_pos_config_file_path,
   error_code = rotor_processor->correct_number_of_parameters(config_int_count);
   if (error_code) return error_code;
 
-  // STARTING POSITION
   Processor* starting_position_processor = new Processor(Processor::file_type::rotor_position);
   int starting_pos, starting_position_index = 0;
   

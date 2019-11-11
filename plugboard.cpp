@@ -26,7 +26,7 @@ int Plugboard::config(string config_file_path) {
    error_code = plugboard_processor->correct_number_of_parameters(config_int_count);
    if (error_code) return error_code;
 
-   delete plugboard_processor;
+  delete plugboard_processor;
 
   return error_code;
 
