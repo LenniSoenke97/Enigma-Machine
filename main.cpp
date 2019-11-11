@@ -10,8 +10,8 @@ int main(int argc, char** argv) {
   
   // parse command line arguments
   if(argc < 4) {
-    cerr << "usage: enigma plugboard-file reflector-file (<rotor-file>)*\
-	    rotor-positions" << endl;
+    cerr << "usage: enigma plugboard-file reflector-file" <<
+      "(<rotor-file>)* rotor-positions" << endl;
     return INSUFFICIENT_NUMBER_OF_PARAMETERS;
   }
   string plugboard_config = argv[1], reflector_config = argv[2];
@@ -46,8 +46,8 @@ int main(int argc, char** argv) {
       cout << current_char;
       continue;
     }
-    cerr << current_char << " is not a valid input character (input characters\
-	    must be upper case letters A-Z)!" << endl;
+    cerr << current_char << " is not a valid input character"
+	 << "input characters must be upper case letters A-Z)!" << endl;
     return INVALID_INPUT_CHARACTER;
   }
 
